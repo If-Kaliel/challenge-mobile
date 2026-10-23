@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'tela_curiosidades.dart';
+
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
 
@@ -30,7 +32,12 @@ class TelaInicial extends StatelessWidget {
               const SizedBox(height: 32),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: ir pra tela principal
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TelaCuriosidades(),
+                    ),
+                  );
                 },
                 child: const Text('Começar'),
               ),
