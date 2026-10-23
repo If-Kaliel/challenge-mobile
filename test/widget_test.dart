@@ -19,4 +19,16 @@ void main() {
     expect(find.text('Curiosidades'), findsOneWidget);
     expect(find.text('Chernobyl (1986)'), findsOneWidget);
   });
+
+  testWidgets('clicar na curiosidade abre os detalhes', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Chernobyl (1986)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Detalhes'), findsOneWidget);
+    expect(find.textContaining('Pripyat'), findsOneWidget);
+  });
 }
