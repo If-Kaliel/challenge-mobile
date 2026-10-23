@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:efeito_fallout/main.dart';
@@ -30,5 +31,55 @@ void main() {
 
     expect(find.text('Detalhes'), findsOneWidget);
     expect(find.textContaining('Pripyat'), findsOneWidget);
+  });
+
+  testWidgets('formulario vazio mostra os erros', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Enviar'));
+    await tester.tap(find.text('Enviar'));
+    await tester.pump();
+
+    expect(find.text('Digite seu nome'), findsOneWidget);
+    expect(find.text('Digite seu e-mail'), findsOneWidget);
+    expect(find.text('Escolha uma categoria'), findsOneWidget);
+    expect(find.text('Escreva o que você ouviu'), findsOneWidget);
+  });
+
+  testWidgets('formulario certo mostra o dialog e volta pra lista', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.widgetWithText(TextFormField, 'Nome'), 'Joao Silva');
+    await tester.enterText(find.widgetWithText(TextFormField, 'E-mail'), 'joao@email.com');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'O que você ouviu?'),
+      'Quem mora perto de usina fica radioativo',
+    );
+
+    await tester.tap(find.text('Categoria'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Energia').last);
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Enviar'));
+    await tester.tap(find.text('Enviar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Enviado!'), findsOneWidget);
+    expect(find.textContaining('Valeu, Joao!'), findsOneWidget);
+
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Curiosidades'), findsOneWidget);
   });
 }
