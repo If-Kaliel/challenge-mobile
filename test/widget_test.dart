@@ -33,6 +33,23 @@ void main() {
     expect(find.textContaining('Pripyat'), findsOneWidget);
   });
 
+  testWidgets('favoritar muda o contador', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Favoritos: 0'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.favorite_border).first);
+    await tester.pump();
+    expect(find.text('Favoritos: 1'), findsOneWidget);
+
+    // clicar de novo desfavorita
+    await tester.tap(find.byIcon(Icons.favorite).at(1));
+    await tester.pump();
+    expect(find.text('Favoritos: 0'), findsOneWidget);
+  });
+
   testWidgets('formulario vazio mostra os erros', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
     await tester.tap(find.text('Começar'));
