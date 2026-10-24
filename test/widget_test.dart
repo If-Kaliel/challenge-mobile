@@ -24,7 +24,8 @@ void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
 
-    expect(find.text('Curiosidades sobre energia nuclear'), findsOneWidget);
+    expect(find.text('EFEITO FALLOUT'), findsOneWidget);
+    expect(find.textContaining('Curiosidades sobre energia nuclear'), findsOneWidget);
     expect(find.text('Começar'), findsOneWidget);
   });
 
@@ -40,6 +41,15 @@ void main() {
     expect(find.text('Medicina'), findsOneWidget);
     expect(find.text('Energia'), findsOneWidget);
     expect(find.text('Ciência'), findsOneWidget);
+  });
+
+  testWidgets('abre a tela sobre', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+
+    await tester.tap(find.text('Sobre o app'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Empresa parceira: AMAZUL'), findsOneWidget);
   });
 
   testWidgets('categoria filtra a lista', (WidgetTester tester) async {

@@ -126,7 +126,6 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
                 controller: _nomeController,
                 decoration: const InputDecoration(
                   labelText: 'Nome',
-                  border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.person),
                 ),
                 validator: _validarNome,
@@ -137,7 +136,6 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
                 keyboardType: TextInputType.emailAddress,
                 decoration: const InputDecoration(
                   labelText: 'E-mail',
-                  border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.email),
                 ),
                 validator: _validarEmail,
@@ -149,7 +147,6 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
                 isExpanded: true,
                 decoration: const InputDecoration(
                   labelText: 'Categoria',
-                  border: OutlineInputBorder(),
                   prefixIcon: Icon(Icons.category),
                 ),
                 items: categorias
@@ -175,7 +172,6 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
                 decoration: const InputDecoration(
                   labelText: 'O que você ouviu?',
                   hintText: 'Ex: quem mora perto de usina fica radioativo',
-                  border: OutlineInputBorder(),
                   alignLabelWithHint: true,
                 ),
                 validator: _validarAfirmacao,

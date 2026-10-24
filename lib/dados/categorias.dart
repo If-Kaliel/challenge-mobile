@@ -32,3 +32,13 @@ const List<Categoria> listaCategorias = [
         'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Marie_Curie_c1920.jpg/960px-Marie_Curie_c1920.jpg',
   ),
 ];
+
+// pega o icone pelo nome da categoria (usado na lista)
+IconData iconeDaCategoria(String nome) {
+  for (final categoria in listaCategorias) {
+    if (categoria.nome == nome) {
+      return categoria.icone;
+    }
+  }
+  return Icons.article;
+}

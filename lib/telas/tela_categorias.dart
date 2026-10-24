@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../dados/categorias.dart';
 import '../models/categoria.dart';
 import '../models/curiosidade.dart';
+import '../tema.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
 
@@ -108,7 +109,7 @@ class _TelaCategoriasState extends State<TelaCategorias> {
                 },
                 errorBuilder: (context, erro, stackTrace) {
                   // sem internet mostra so o icone
-                  return Icon(categoria.icone, size: 48, color: Colors.grey);
+                  return Icon(categoria.icone, size: 48, color: Cores.textoSuave);
                 },
               ),
             ),
@@ -116,7 +117,7 @@ class _TelaCategoriasState extends State<TelaCategorias> {
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  Icon(categoria.icone),
+                  Icon(categoria.icone, color: Cores.amarelo),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

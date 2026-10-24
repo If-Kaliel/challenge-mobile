@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../models/curiosidade.dart';
+import '../tema.dart';
 import 'tela_detalhe.dart';
 
 class TelaFavoritos extends StatefulWidget {
@@ -45,7 +46,7 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.favorite_border, size: 80, color: Colors.grey),
+            Icon(Icons.favorite_border, size: 80, color: Cores.textoSuave),
             SizedBox(height: 16),
             Text(
               'Você ainda não favoritou nada',
@@ -55,6 +56,7 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
             Text(
               'Toque no coração das curiosidades pra salvar aqui.',
               textAlign: TextAlign.center,
+              style: TextStyle(color: Cores.textoSuave),
             ),
           ],
         ),
@@ -70,7 +72,7 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
         final curiosidade = widget.favoritos[index];
         return Card(
           child: ListTile(
-            leading: const Icon(Icons.favorite, color: Colors.red),
+            leading: const Icon(Icons.favorite, color: Cores.vermelho),
             title: Text(curiosidade.titulo),
             subtitle: Text(
               curiosidade.resumo,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../dados/categorias.dart';
 import '../dados/curiosidades.dart';
 import '../models/curiosidade.dart';
+import '../tema.dart';
 import 'tela_detalhe.dart';
 import 'tela_enviar_mito.dart';
 import 'tela_favoritos.dart';
@@ -11,11 +13,7 @@ class TelaCuriosidades extends StatefulWidget {
   final String? categoria;
   final List<Curiosidade> favoritos;
 
-  const TelaCuriosidades({
-    super.key,
-    this.categoria,
-    required this.favoritos,
-  });
+  const TelaCuriosidades({super.key, this.categoria, required this.favoritos});
 
   @override
   State<TelaCuriosidades> createState() => _TelaCuriosidadesState();
@@ -93,55 +91,79 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
       body: Column(
         children: [
           // contador que muda quando favorita
-          InkWell(
-            onTap: _abrirFavoritos,
-            child: Container(
-              width: double.infinity,
-              color: Colors.amber.shade100,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  const Icon(Icons.favorite, color: Colors.red),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Favoritos: ${favoritos.length}',
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                  const Spacer(),
-                  const Text('ver'),
-                  const Icon(Icons.chevron_right),
-                ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: InkWell(
+              onTap: _abrirFavoritos,
+              borderRadius: BorderRadius.circular(12),
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                decoration: BoxDecoration(
+                  color: Cores.amarelo,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.favorite, color: Colors.black),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Favoritos: ${favoritos.length}',
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const Spacer(),
+                    const Text('ver', style: TextStyle(color: Colors.black)),
+                    const Icon(Icons.chevron_right, color: Colors.black),
+                  ],
+                ),
               ),
             ),
           ),
           Expanded(
             child: ListView.builder(
               // espaco pro botao nao tampar o ultimo item
-              padding: const EdgeInsets.only(bottom: 80),
+              padding: const EdgeInsets.fromLTRB(12, 0, 12, 80),
               itemCount: lista.length,
               itemBuilder: (context, index) {
                 final curiosidade = lista[index];
                 final favorito = favoritos.contains(curiosidade);
 
-                return ListTile(
-                  leading: const Icon(Icons.article),
-                  title: Text(curiosidade.titulo),
-                  subtitle: Text(curiosidade.resumo),
-                  trailing: IconButton(
-                    icon: Icon(
-                      favorito ? Icons.favorite : Icons.favorite_border,
-                      color: favorito ? Colors.red : null,
+                return Card(
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+                    leading: Icon(
+                      iconeDaCategoria(curiosidade.categoria),
+                      color: Cores.amarelo,
                     ),
-                    onPressed: () => _favoritar(curiosidade),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TelaDetalhe(curiosidade: curiosidade),
+                    title: Text(
+                      curiosidade.titulo,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Text(curiosidade.resumo),
+                    trailing: IconButton(
+                      icon: Icon(
+                        favorito ? Icons.favorite : Icons.favorite_border,
+                        color: favorito ? Cores.vermelho : null,
                       ),
-                    );
-                  },
+                      onPressed: () => _favoritar(curiosidade),
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TelaDetalhe(curiosidade: curiosidade),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             ),
