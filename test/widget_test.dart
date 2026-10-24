@@ -50,6 +50,35 @@ void main() {
     expect(find.text('Favoritos: 0'), findsOneWidget);
   });
 
+  testWidgets('tela de favoritos mostra e remove', (WidgetTester tester) async {
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    // sem favoritos
+    await tester.tap(find.text('ver'));
+    await tester.pumpAndSettle();
+    expect(find.text('Você ainda não favoritou nada'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    // favorita o primeiro e abre
+    await tester.tap(find.byIcon(Icons.favorite_border).first);
+    await tester.pump();
+    await tester.tap(find.text('ver'));
+    await tester.pumpAndSettle();
+    expect(find.text('Meus favoritos'), findsOneWidget);
+    expect(find.text('Chernobyl (1986)'), findsOneWidget);
+
+    // remove e volta, o contador tem que zerar
+    await tester.tap(find.byIcon(Icons.delete_outline));
+    await tester.pump();
+    expect(find.text('Você ainda não favoritou nada'), findsOneWidget);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    expect(find.text('Favoritos: 0'), findsOneWidget);
+  });
+
   testWidgets('formulario vazio mostra os erros', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
     await tester.tap(find.text('Começar'));

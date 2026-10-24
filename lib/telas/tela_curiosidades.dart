@@ -4,6 +4,7 @@ import '../dados/curiosidades.dart';
 import '../models/curiosidade.dart';
 import 'tela_detalhe.dart';
 import 'tela_enviar_mito.dart';
+import 'tela_favoritos.dart';
 
 class TelaCuriosidades extends StatefulWidget {
   const TelaCuriosidades({super.key});
@@ -37,11 +38,29 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
     );
   }
 
+  Future<void> _abrirFavoritos() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TelaFavoritos(favoritos: favoritos),
+      ),
+    );
+    // atualiza o contador e os coracoes quando volta (pode ter removido algum la)
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Curiosidades'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            tooltip: 'Meus favoritos',
+            onPressed: _abrirFavoritos,
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -56,19 +75,25 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
       body: Column(
         children: [
           // contador que muda quando favorita
-          Container(
-            width: double.infinity,
-            color: Colors.amber.shade100,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Row(
-              children: [
-                const Icon(Icons.favorite, color: Colors.red),
-                const SizedBox(width: 8),
-                Text(
-                  'Favoritos: ${favoritos.length}',
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ],
+          InkWell(
+            onTap: _abrirFavoritos,
+            child: Container(
+              width: double.infinity,
+              color: Colors.amber.shade100,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Row(
+                children: [
+                  const Icon(Icons.favorite, color: Colors.red),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Favoritos: ${favoritos.length}',
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  const Spacer(),
+                  const Text('ver'),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
             ),
           ),
           Expanded(
