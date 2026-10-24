@@ -4,6 +4,7 @@ import '../models/curiosidade.dart';
 const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Chernobyl (1986)',
+    categoria: 'Tragédias',
     resumo:
         'O pior acidente nuclear da história aconteceu na Ucrânia, em 26 de abril de 1986, quando o reator 4 explodiu.',
     texto:
@@ -13,6 +14,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Césio-137 em Goiânia (1987)',
+    categoria: 'Tragédias',
     resumo:
         'Catadores abriram um aparelho de radioterapia abandonado e o pó brilhante contaminou centenas de pessoas.',
     texto:
@@ -23,6 +25,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Hiroshima e Nagasaki (1945)',
+    categoria: 'Tragédias',
     resumo:
         'As duas únicas bombas atômicas usadas em guerra foram lançadas sobre o Japão em agosto de 1945.',
     texto:
@@ -31,6 +34,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Fukushima (2011)',
+    categoria: 'Tragédias',
     resumo:
         'Um terremoto seguido de tsunami desligou o resfriamento da usina e três reatores derreteram.',
     texto:
@@ -40,6 +44,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'O primeiro raio-X (1895)',
+    categoria: 'Medicina',
     resumo:
         'Wilhelm Röntgen fez a primeira radiografia da história: a mão da esposa dele, com anel e tudo.',
     texto:
@@ -49,6 +54,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Exame PET',
+    categoria: 'Medicina',
     resumo:
         'Uma pequena quantidade de material radioativo ajuda os médicos a encontrar tumores no corpo.',
     texto:
@@ -58,6 +64,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Angra 1 e Angra 2',
+    categoria: 'Energia',
     resumo:
         'O Brasil tem duas usinas nucleares funcionando em Angra dos Reis, no Rio de Janeiro.',
     texto:
@@ -66,7 +73,28 @@ const List<Curiosidade> listaCuriosidades = [
         'Juntas elas geram cerca de 2% a 3% da eletricidade do país.',
   ),
   Curiosidade(
+    titulo: 'Pastilha de urânio',
+    categoria: 'Energia',
+    resumo:
+        'Uma pastilha de urânio de 6 gramas tem tanta energia quanto cerca de 1 tonelada de carvão.',
+    texto:
+        'O combustível das usinas é feito de pastilhas de urânio enriquecido, do tamanho da ponta de um dedo. '
+        'Uma pastilha de 6 gramas, enriquecida a 4,5%, tem tanta energia quanto cerca de 1 tonelada de carvão ou 3 barris de petróleo. '
+        'As pastilhas ficam empilhadas dentro de varetas de metal que vão pro reator. (Fonte: apresentação da AMAZUL)',
+  ),
+  Curiosidade(
+    titulo: 'Energia que quase não solta CO2',
+    categoria: 'Energia',
+    resumo:
+        'Usina nuclear não queima nada, então quase não solta gás carbônico enquanto gera energia.',
+    texto:
+        'A usina usa o calor da fissão do urânio pra ferver água, e o vapor gira uma turbina. '
+        'Como não tem queima, não sai CO2 da usina, e aquela "fumaça" das torres de resfriamento é só vapor de água. '
+        'Contando a vida inteira da usina (construção, mineração e tudo), as emissões ficam parecidas com as da energia eólica, segundo o IPCC.',
+  ),
+  Curiosidade(
     titulo: 'Banana radioativa?',
+    categoria: 'Ciência',
     resumo:
         'A banana tem potássio-40, que é levemente radioativo. Mas teria que comer milhões de uma vez pra fazer mal.',
     texto:
@@ -76,6 +104,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Marie Curie',
+    categoria: 'Ciência',
     resumo:
         'Ganhou dois prêmios Nobel, um de Física e outro de Química, estudando a radioatividade.',
     texto:

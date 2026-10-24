@@ -7,14 +7,32 @@ import 'tela_enviar_mito.dart';
 import 'tela_favoritos.dart';
 
 class TelaCuriosidades extends StatefulWidget {
-  const TelaCuriosidades({super.key});
+  // se vier null mostra todas
+  final String? categoria;
+  final List<Curiosidade> favoritos;
+
+  const TelaCuriosidades({
+    super.key,
+    this.categoria,
+    required this.favoritos,
+  });
 
   @override
   State<TelaCuriosidades> createState() => _TelaCuriosidadesState();
 }
 
 class _TelaCuriosidadesState extends State<TelaCuriosidades> {
-  final List<Curiosidade> favoritos = [];
+  // a lista de favoritos agora vem da tela de categorias
+  List<Curiosidade> get favoritos => widget.favoritos;
+
+  List<Curiosidade> get lista {
+    if (widget.categoria == null) {
+      return listaCuriosidades;
+    }
+    return listaCuriosidades
+        .where((c) => c.categoria == widget.categoria)
+        .toList();
+  }
 
   void _favoritar(Curiosidade curiosidade) {
     final jaEra = favoritos.contains(curiosidade);
@@ -53,7 +71,7 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Curiosidades'),
+        title: Text(widget.categoria ?? 'Curiosidades'),
         actions: [
           IconButton(
             icon: const Icon(Icons.favorite),
@@ -100,9 +118,9 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
             child: ListView.builder(
               // espaco pro botao nao tampar o ultimo item
               padding: const EdgeInsets.only(bottom: 80),
-              itemCount: listaCuriosidades.length,
+              itemCount: lista.length,
               itemBuilder: (context, index) {
-                final curiosidade = listaCuriosidades[index];
+                final curiosidade = lista[index];
                 final favorito = favoritos.contains(curiosidade);
 
                 return ListTile(

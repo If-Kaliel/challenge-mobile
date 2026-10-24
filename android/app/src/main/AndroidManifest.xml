@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- pra carregar as imagens da internet -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="Efeito Fallout"
         android:name="${applicationName}"

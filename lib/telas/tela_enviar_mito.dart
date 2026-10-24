@@ -145,6 +145,8 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 initialValue: _categoria,
+                // sem isso estoura em celular pequeno
+                isExpanded: true,
                 decoration: const InputDecoration(
                   labelText: 'Categoria',
                   border: OutlineInputBorder(),

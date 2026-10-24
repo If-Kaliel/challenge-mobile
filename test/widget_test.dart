@@ -3,6 +3,23 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:efeito_fallout/main.dart';
 
+// a tela padrao do teste e 800x600, ai a grade nao cabe. usa tamanho de celular
+void telaDeCelular(WidgetTester tester) {
+  tester.view.physicalSize = const Size(1080, 2400);
+  tester.view.devicePixelRatio = 3;
+  addTearDown(tester.view.reset);
+}
+
+// abre o app e vai ate a lista com todas as curiosidades
+Future<void> abrirLista(WidgetTester tester) async {
+  telaDeCelular(tester);
+  await tester.pumpWidget(const EfeitoFalloutApp());
+  await tester.tap(find.text('Começar'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Ver todas as curiosidades'));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
@@ -11,20 +28,42 @@ void main() {
     expect(find.text('Começar'), findsOneWidget);
   });
 
-  testWidgets('botao comecar abre a lista', (WidgetTester tester) async {
+  testWidgets('botao comecar abre as categorias', (WidgetTester tester) async {
+    telaDeCelular(tester);
     await tester.pumpWidget(const EfeitoFalloutApp());
 
     await tester.tap(find.text('Começar'));
     await tester.pumpAndSettle();
+
+    expect(find.text('Explorar'), findsOneWidget);
+    expect(find.text('Tragédias'), findsOneWidget);
+    expect(find.text('Medicina'), findsOneWidget);
+    expect(find.text('Energia'), findsOneWidget);
+    expect(find.text('Ciência'), findsOneWidget);
+  });
+
+  testWidgets('categoria filtra a lista', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Medicina'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Exame PET'), findsOneWidget);
+    expect(find.text('Chernobyl (1986)'), findsNothing);
+  });
+
+  testWidgets('ver todas mostra a lista inteira', (WidgetTester tester) async {
+    await abrirLista(tester);
 
     expect(find.text('Curiosidades'), findsOneWidget);
     expect(find.text('Chernobyl (1986)'), findsOneWidget);
   });
 
   testWidgets('clicar na curiosidade abre os detalhes', (WidgetTester tester) async {
-    await tester.pumpWidget(const EfeitoFalloutApp());
-    await tester.tap(find.text('Começar'));
-    await tester.pumpAndSettle();
+    await abrirLista(tester);
 
     await tester.tap(find.text('Chernobyl (1986)'));
     await tester.pumpAndSettle();
@@ -34,9 +73,7 @@ void main() {
   });
 
   testWidgets('favoritar muda o contador', (WidgetTester tester) async {
-    await tester.pumpWidget(const EfeitoFalloutApp());
-    await tester.tap(find.text('Começar'));
-    await tester.pumpAndSettle();
+    await abrirLista(tester);
 
     expect(find.text('Favoritos: 0'), findsOneWidget);
 
@@ -50,10 +87,26 @@ void main() {
     expect(find.text('Favoritos: 0'), findsOneWidget);
   });
 
-  testWidgets('tela de favoritos mostra e remove', (WidgetTester tester) async {
+  testWidgets('favorito continua quando troca de categoria', (WidgetTester tester) async {
+    telaDeCelular(tester);
     await tester.pumpWidget(const EfeitoFalloutApp());
     await tester.tap(find.text('Começar'));
     await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Tragédias'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.favorite_border).first);
+    await tester.pump();
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Medicina'));
+    await tester.pumpAndSettle();
+    expect(find.text('Favoritos: 1'), findsOneWidget);
+  });
+
+  testWidgets('tela de favoritos mostra e remove', (WidgetTester tester) async {
+    await abrirLista(tester);
 
     // sem favoritos
     await tester.tap(find.text('ver'));
@@ -80,9 +133,7 @@ void main() {
   });
 
   testWidgets('formulario vazio mostra os erros', (WidgetTester tester) async {
-    await tester.pumpWidget(const EfeitoFalloutApp());
-    await tester.tap(find.text('Começar'));
-    await tester.pumpAndSettle();
+    await abrirLista(tester);
 
     await tester.tap(find.text('Enviar mito'));
     await tester.pumpAndSettle();
@@ -98,9 +149,7 @@ void main() {
   });
 
   testWidgets('formulario certo mostra o dialog e volta pra lista', (WidgetTester tester) async {
-    await tester.pumpWidget(const EfeitoFalloutApp());
-    await tester.tap(find.text('Começar'));
-    await tester.pumpAndSettle();
+    await abrirLista(tester);
     await tester.tap(find.text('Enviar mito'));
     await tester.pumpAndSettle();
 

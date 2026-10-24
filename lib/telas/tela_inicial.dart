@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'tela_curiosidades.dart';
+import 'tela_categorias.dart';
 
 class TelaInicial extends StatelessWidget {
   const TelaInicial({super.key});
@@ -35,7 +35,7 @@ class TelaInicial extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TelaCuriosidades(),
+                      builder: (context) => const TelaCategorias(),
                     ),
                   );
                 },
