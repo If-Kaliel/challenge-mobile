@@ -118,6 +118,16 @@ lib/
 
 Link do vídeo no YouTube: *em breve*
 
+> 📌 **Recado pro Kaliel:** gravar o vídeo rodando no **emulador Android** (Android Studio). Vídeo só no navegador não vale nota!
+>
+> Checklist do que tem que aparecer (máximo **5 minutos**, com narração):
+> - [ ] o app rodando no emulador Android
+> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos e Sobre o app
+> - [ ] o fluxo de navegação, indo e voltando entre as telas
+> - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
+> - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)
+> - [ ] subir no YouTube como **não listado** e colocar o link aqui em cima
+
 ## Fontes
 
 - AIEA - Agência Internacional de Energia Atômica

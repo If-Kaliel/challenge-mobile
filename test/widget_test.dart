@@ -79,7 +79,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Detalhes'), findsOneWidget);
-    expect(find.textContaining('Pripyat'), findsOneWidget);
+    expect(find.textContaining('zona de exclusão'), findsOneWidget);
   });
 
   testWidgets('favoritar muda o contador', (WidgetTester tester) async {

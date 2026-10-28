@@ -4,6 +4,7 @@ import '../dados/categorias.dart';
 import '../models/categoria.dart';
 import '../models/curiosidade.dart';
 import '../tema.dart';
+import '../widgets/imagem_rede.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
 
@@ -100,18 +101,7 @@ class _TelaCategoriasState extends State<TelaCategorias> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: Image.network(
-                categoria.imagem,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, progresso) {
-                  if (progresso == null) return child;
-                  return const Center(child: CircularProgressIndicator());
-                },
-                errorBuilder: (context, erro, stackTrace) {
-                  // sem internet mostra so o icone
-                  return Icon(categoria.icone, size: 48, color: Cores.textoSuave);
-                },
-              ),
+              child: ImagemRede(url: categoria.imagem, iconeErro: categoria.icone),
             ),
             Padding(
               padding: const EdgeInsets.all(12),
