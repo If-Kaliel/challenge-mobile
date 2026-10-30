@@ -43,9 +43,5 @@
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
         </intent>
-        <!-- precisa pra achar o leitor de voz do celular (flutter_tts) -->
-        <intent>
-            <action android:name="android.intent.action.TTS_SERVICE"/>
-        </intent>
     </queries>
 </manifest>

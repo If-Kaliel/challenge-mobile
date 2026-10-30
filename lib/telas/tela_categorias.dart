@@ -5,7 +5,6 @@ import '../models/categoria.dart';
 import '../models/curiosidade.dart';
 import '../tema.dart';
 import '../widgets/imagem_rede.dart';
-import '../widgets/narrar_tela.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
 
@@ -25,8 +24,10 @@ class _TelaCategoriasState extends State<TelaCategorias> {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            TelaCuriosidades(categoria: categoria, favoritos: favoritos),
+        builder: (context) => TelaCuriosidades(
+          categoria: categoria,
+          favoritos: favoritos,
+        ),
       ),
     );
     setState(() {});
@@ -42,108 +43,85 @@ class _TelaCategoriasState extends State<TelaCategorias> {
     setState(() {});
   }
 
-  String get _textoNarrado {
-    final temas = listaCategorias.map((c) => c.nome).join(', ');
-    return 'Explorar. Escolha um tema: $temas.';
-  }
-
   @override
   Widget build(BuildContext context) {
     // com a fonte do celular bem grande o nome nao cabe em 2 colunas
     final fonteGrande = MediaQuery.textScalerOf(context).scale(1) > 1.4;
 
-    return NarrarTela(
-      texto: _textoNarrado,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Explorar'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.favorite),
-              tooltip: 'Meus favoritos',
-              onPressed: _abrirFavoritos,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Explorar'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.favorite),
+            tooltip: 'Meus favoritos',
+            onPressed: _abrirFavoritos,
+          ),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              'Escolha um tema',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: fonteGrande ? 1 : 2,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: fonteGrande ? 1.6 : 0.85,
+                ),
+                itemCount: listaCategorias.length,
+                itemBuilder: (context, index) {
+                  return _cardCategoria(listaCategorias[index]);
+                },
+              ),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () => _abrirCuriosidades(null),
+              icon: const Icon(Icons.list),
+              label: const Text('Ver todas as curiosidades'),
             ),
           ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Semantics(
-                header: true,
-                child: const Text(
-                  'Escolha um tema',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ),
-              const SizedBox(height: 12),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: fonteGrande ? 1 : 2,
-                    mainAxisSpacing: 12,
-                    crossAxisSpacing: 12,
-                    childAspectRatio: fonteGrande ? 1.6 : 0.85,
-                  ),
-                  itemCount: listaCategorias.length,
-                  itemBuilder: (context, index) {
-                    return _cardCategoria(listaCategorias[index]);
-                  },
-                ),
-              ),
-              const SizedBox(height: 12),
-              OutlinedButton.icon(
-                onPressed: () => _abrirCuriosidades(null),
-                icon: const Icon(Icons.list),
-                label: const Text('Ver todas as curiosidades'),
-              ),
-            ],
-          ),
         ),
       ),
     );
   }
 
   Widget _cardCategoria(Categoria categoria) {
-    // junta tudo num item so pro TalkBack ler o nome e dizer que e um botao
-    return MergeSemantics(
-      child: Semantics(
-        button: true,
-        child: Card(
-          clipBehavior: Clip.antiAlias,
-          child: InkWell(
-            onTap: () => _abrirCuriosidades(categoria.nome),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(
-                  child: ImagemRede(
-                    url: categoria.imagem,
-                    iconeErro: categoria.icone,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      Icon(categoria.icone, color: Cores.amarelo),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          categoria.nome,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      child: InkWell(
+        onTap: () => _abrirCuriosidades(categoria.nome),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: ImagemRede(url: categoria.imagem, iconeErro: categoria.icone),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  Icon(categoria.icone, color: Cores.amarelo),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      categoria.nome,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

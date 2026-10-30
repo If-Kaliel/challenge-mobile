@@ -23,8 +23,6 @@ class ImagemRede extends StatelessWidget {
       height: altura,
       width: double.infinity,
       fit: BoxFit.cover,
-      // quem descreve a foto pro TalkBack e o texto que fica junto dela
-      excludeFromSemantics: true,
       loadingBuilder: (context, child, progresso) {
         if (progresso == null) return child;
         return Container(

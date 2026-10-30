@@ -8,8 +8,6 @@ class Cores {
   static const amarelo = Color(0xFFFFC928);
   static const vermelho = Color(0xFFE53935);
   static const verde = Color(0xFF2EC4B6);
-  // azul parecido com o do botao de acessibilidade dos sites do governo
-  static const azul = Color(0xFF1565E6);
   static const texto = Colors.white;
   static const textoSuave = Color(0xFF9AA4B2);
 }

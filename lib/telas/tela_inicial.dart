@@ -41,16 +41,13 @@ class TelaInicial extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32),
-                Semantics(
-                  header: true,
-                  child: const Text(
-                    'EFEITO FALLOUT',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 3,
-                    ),
+                const Text(
+                  'EFEITO FALLOUT',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 3,
                   ),
                 ),
                 const SizedBox(height: 8),
