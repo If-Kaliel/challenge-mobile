@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../models/curiosidade.dart';
+import '../servicos/leitor.dart';
 import '../tema.dart';
+import '../widgets/narrar_tela.dart';
 import 'tela_detalhe.dart';
 
 class TelaFavoritos extends StatefulWidget {
@@ -20,22 +22,30 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
       widget.favoritos.remove(curiosidade);
     });
 
+    final mensagem = '${curiosidade.titulo} saiu dos favoritos';
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(seconds: 1),
-        content: Text('${curiosidade.titulo} saiu dos favoritos'),
-      ),
+      SnackBar(duration: const Duration(seconds: 1), content: Text(mensagem)),
     );
+    Leitor.narrar(mensagem);
+  }
+
+  String get _textoNarrado {
+    if (widget.favoritos.isEmpty) {
+      return 'Meus favoritos. Você ainda não favoritou nada.';
+    }
+    final titulos = widget.favoritos.map((c) => c.titulo).join('. ');
+    return 'Meus favoritos: $titulos.';
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus favoritos'),
+    return NarrarTela(
+      texto: _textoNarrado,
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Meus favoritos')),
+        body: widget.favoritos.isEmpty ? _listaVazia() : _lista(),
       ),
-      body: widget.favoritos.isEmpty ? _listaVazia() : _lista(),
     );
   }
 
@@ -66,7 +76,8 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
 
   Widget _lista() {
     return ListView.builder(
-      padding: const EdgeInsets.all(8),
+      // espaco pro botao de acessibilidade nao tampar a lixeira
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 150),
       itemCount: widget.favoritos.length,
       itemBuilder: (context, index) {
         final curiosidade = widget.favoritos[index];
@@ -81,6 +92,7 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
             ),
             trailing: IconButton(
               icon: const Icon(Icons.delete_outline),
+              tooltip: 'Remover ${curiosidade.titulo} dos favoritos',
               onPressed: () => _remover(curiosidade),
             ),
             onTap: () {

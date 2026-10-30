@@ -11,68 +11,84 @@ class TelaInicial extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Cores.amarelo,
-                    shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Cores.amarelo.withValues(alpha: 0.4),
-                        blurRadius: 40,
-                      ),
-                    ],
-                  ),
-                  child: const Icon(Icons.warning_amber, size: 72, color: Colors.black),
-                ),
-              ),
-              const SizedBox(height: 32),
-              const Text(
-                'EFEITO FALLOUT',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 3,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Curiosidades sobre energia nuclear: as tragédias, os avanços e o que é mito ou verdade.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: Cores.textoSuave, height: 1.4),
-              ),
-              const SizedBox(height: 48),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const TelaCategorias(),
+        // rola se nao couber, por exemplo com a fonte do celular bem grande
+        child: Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Cores.amarelo,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Cores.amarelo.withValues(alpha: 0.4),
+                          blurRadius: 40,
+                        ),
+                      ],
                     ),
-                  );
-                },
-                child: const Text('Começar'),
-              ),
-              const SizedBox(height: 8),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const TelaSobre()),
-                  );
-                },
-                child: const Text('Sobre o app'),
-              ),
-            ],
+                    child: const Icon(
+                      Icons.warning_amber,
+                      size: 72,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                Semantics(
+                  header: true,
+                  child: const Text(
+                    'EFEITO FALLOUT',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 3,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Curiosidades sobre energia nuclear: as tragédias, os avanços e o que é mito ou verdade.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Cores.textoSuave,
+                    height: 1.4,
+                  ),
+                ),
+                const SizedBox(height: 48),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TelaCategorias(),
+                      ),
+                    );
+                  },
+                  child: const Text('Começar'),
+                ),
+                const SizedBox(height: 8),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TelaSobre(),
+                      ),
+                    );
+                  },
+                  child: const Text('Sobre o app'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

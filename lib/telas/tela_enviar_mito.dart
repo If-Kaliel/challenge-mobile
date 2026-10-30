@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../servicos/leitor.dart';
+import '../widgets/narrar_tela.dart';
+
 class TelaEnviarMito extends StatefulWidget {
   const TelaEnviarMito({super.key});
 
@@ -73,10 +76,12 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Tem campo errado, confere ai')),
       );
+      Leitor.narrar('Tem campo errado, confira o formulário');
       return;
     }
 
     final nome = _nomeController.text.trim().split(' ').first;
+    Leitor.narrar('Enviado! Valeu, $nome!');
 
     showDialog(
       context: context,
@@ -103,96 +108,98 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Enviar um mito'),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          autovalidateMode: _jaTentouEnviar
-              ? AutovalidateMode.always
-              : AutovalidateMode.disabled,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                'Ouviu alguma coisa sobre energia nuclear e não sabe se é verdade? Manda pra gente!',
-                style: TextStyle(fontSize: 16),
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _nomeController,
-                decoration: const InputDecoration(
-                  labelText: 'Nome',
-                  prefixIcon: Icon(Icons.person),
+    return NarrarTela(
+      texto:
+          'Enviar um mito. Preencha nome, e-mail, categoria e o que você ouviu.',
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Enviar um mito')),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 150),
+          child: Form(
+            key: _formKey,
+            autovalidateMode: _jaTentouEnviar
+                ? AutovalidateMode.always
+                : AutovalidateMode.disabled,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'Ouviu alguma coisa sobre energia nuclear e não sabe se é verdade? Manda pra gente!',
+                  style: TextStyle(fontSize: 16),
                 ),
-                validator: _validarNome,
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'E-mail',
-                  prefixIcon: Icon(Icons.email),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _nomeController,
+                  decoration: const InputDecoration(
+                    labelText: 'Nome',
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                  validator: _validarNome,
                 ),
-                validator: _validarEmail,
-              ),
-              const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                initialValue: _categoria,
-                // sem isso estoura em celular pequeno
-                isExpanded: true,
-                decoration: const InputDecoration(
-                  labelText: 'Categoria',
-                  prefixIcon: Icon(Icons.category),
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _emailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    labelText: 'E-mail',
+                    prefixIcon: Icon(Icons.email),
+                  ),
+                  validator: _validarEmail,
                 ),
-                items: categorias
-                    .map((c) => DropdownMenuItem(value: c, child: Text(c)))
-                    .toList(),
-                onChanged: (valor) {
-                  setState(() {
-                    _categoria = valor;
-                  });
-                },
-                validator: (valor) {
-                  if (valor == null) {
-                    return 'Escolha uma categoria';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _afirmacaoController,
-                maxLines: 4,
-                maxLength: 300,
-                decoration: const InputDecoration(
-                  labelText: 'O que você ouviu?',
-                  hintText: 'Ex: quem mora perto de usina fica radioativo',
-                  alignLabelWithHint: true,
+                const SizedBox(height: 16),
+                DropdownButtonFormField<String>(
+                  initialValue: _categoria,
+                  // sem isso estoura em celular pequeno
+                  isExpanded: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Categoria',
+                    prefixIcon: Icon(Icons.category),
+                  ),
+                  items: categorias
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                      .toList(),
+                  onChanged: (valor) {
+                    setState(() {
+                      _categoria = valor;
+                    });
+                  },
+                  validator: (valor) {
+                    if (valor == null) {
+                      return 'Escolha uma categoria';
+                    }
+                    return null;
+                  },
                 ),
-                validator: _validarAfirmacao,
-              ),
-              SwitchListTile(
-                contentPadding: EdgeInsets.zero,
-                title: const Text('Quero receber a resposta por e-mail'),
-                value: _receberResposta,
-                onChanged: (valor) {
-                  setState(() {
-                    _receberResposta = valor;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: _enviar,
-                icon: const Icon(Icons.send),
-                label: const Text('Enviar'),
-              ),
-            ],
+                const SizedBox(height: 16),
+                TextFormField(
+                  controller: _afirmacaoController,
+                  maxLines: 4,
+                  maxLength: 300,
+                  decoration: const InputDecoration(
+                    labelText: 'O que você ouviu?',
+                    hintText: 'Ex: quem mora perto de usina fica radioativo',
+                    alignLabelWithHint: true,
+                  ),
+                  validator: _validarAfirmacao,
+                ),
+                SwitchListTile(
+                  contentPadding: EdgeInsets.zero,
+                  title: const Text('Quero receber a resposta por e-mail'),
+                  value: _receberResposta,
+                  onChanged: (valor) {
+                    setState(() {
+                      _receberResposta = valor;
+                    });
+                  },
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton.icon(
+                  onPressed: _enviar,
+                  icon: const Icon(Icons.send),
+                  label: const Text('Enviar'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

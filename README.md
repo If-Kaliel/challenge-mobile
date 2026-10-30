@@ -89,8 +89,19 @@ flutter test
 - Flutter 3.44
 - Dart 3.12
 - Material Design 3
-- Nenhum pacote externo além do Flutter (estado só com `setState`)
+- [flutter_tts](https://pub.dev/packages/flutter_tts) para ler os textos em voz alta (único pacote externo, o resto é só Flutter)
+- Estado com `setState`
 - Imagens do Wikimedia Commons
+
+## Acessibilidade
+
+- **Botão de acessibilidade:** quadrado azul com mãozinhas no canto da tela, em todas as telas, no estilo do que aparece nos sites do governo. Ele abre um painel com as opções abaixo.
+- **Modo de som:** cada tela se lê em voz alta quando abre, usando a voz do próprio celular.
+- **Botão Ouvir:** lê a curiosidade inteira, incluindo a descrição da foto.
+- **TalkBack:** botões, fotos e títulos têm descrição para o leitor de tela do Android. Com o TalkBack ligado, o modo de som não fala por cima dele.
+- **Fonte grande:** as telas se adaptam quando o celular usa fonte maior.
+
+> **Sobre o ícone:** os sites do governo usam o VLibras, que traduz para Libras e atende pessoas surdas. Ele é feito para sites e não roda dentro de um app Flutter, então aqui usamos um ícone parecido, mas não o oficial. **Este app ainda não traduz para Libras**, e o painel avisa isso.
 
 ## Estrutura do projeto
 
@@ -104,6 +115,12 @@ lib/
 ├── dados/                 # dados mockados
 │   ├── curiosidades.dart
 │   └── categorias.dart
+├── servicos/
+│   └── leitor.dart        # le os textos em voz alta
+├── widgets/
+│   ├── botao_acessibilidade.dart
+│   ├── imagem_rede.dart
+│   └── narrar_tela.dart
 └── telas/
     ├── tela_inicial.dart
     ├── tela_categorias.dart
