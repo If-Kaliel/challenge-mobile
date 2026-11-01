@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:efeito_fallout/dados/perguntas.dart';
 import 'package:efeito_fallout/main.dart';
+import 'package:efeito_fallout/models/pergunta.dart';
 import 'package:efeito_fallout/telas/tela_resultado.dart';
 
 // a tela padrao do teste e 800x600, ai a grade nao cabe. usa tamanho de celular
@@ -40,9 +41,24 @@ Future<void> tocarProxima(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
-// responde todas certas e chega na tela de resultado
-Future<void> terminarQuiz(WidgetTester tester) async {
-  for (final pergunta in listaPerguntas) {
+// as perguntas vem sorteadas, entao descobre qual esta na tela
+Pergunta perguntaNaTela() {
+  return listaPerguntas.firstWhere(
+    (p) => find.text(p.afirmacao).evaluate().isNotEmpty,
+  );
+}
+
+String respostaErrada(Pergunta pergunta) {
+  return opcoesQuiz.firstWhere((opcao) => opcao != pergunta.resposta);
+}
+
+// responde todas certas e chega no resultado, devolve a ordem que caiu
+Future<List<String>> terminarQuiz(WidgetTester tester) async {
+  final ordem = <String>[];
+  for (var i = 0; i < listaPerguntas.length; i++) {
+    final pergunta = perguntaNaTela();
+    ordem.add(pergunta.afirmacao);
+
     await tester.ensureVisible(find.text(pergunta.resposta));
     await tester.pumpAndSettle();
     await tester.tap(find.text(pergunta.resposta));
@@ -54,6 +70,7 @@ Future<void> terminarQuiz(WidgetTester tester) async {
 
     await tocarProxima(tester);
   }
+  return ordem;
 }
 
 void main() {
@@ -288,7 +305,7 @@ void main() {
 
     expect(find.text('Pergunta 1 de ${listaPerguntas.length}'), findsOneWidget);
     expect(find.text('Acertos: 0'), findsOneWidget);
-    expect(find.text(listaPerguntas[0].afirmacao), findsOneWidget);
+    expect(find.text(perguntaNaTela().afirmacao), findsOneWidget);
     expect(find.text('Mito'), findsOneWidget);
     expect(find.text('Verdade'), findsOneWidget);
     expect(find.text('Depende'), findsOneWidget);
@@ -298,7 +315,7 @@ void main() {
   testWidgets('resposta certa soma ponto', (WidgetTester tester) async {
     await abrirQuiz(tester);
 
-    await tester.tap(find.text(listaPerguntas[0].resposta));
+    await tester.tap(find.text(perguntaNaTela().resposta));
     await tester.pump();
 
     expect(find.text('Acertos: 1'), findsOneWidget);
@@ -307,66 +324,95 @@ void main() {
 
   testWidgets('resposta errada mostra a certa', (WidgetTester tester) async {
     await abrirQuiz(tester);
+    final pergunta = perguntaNaTela();
 
-    await tester.tap(find.text('Verdade'));
+    await tester.tap(find.text(respostaErrada(pergunta)));
     await tester.pump();
 
     expect(find.text('Acertos: 0'), findsOneWidget);
-    expect(find.text('Errou! A resposta é Mito.'), findsOneWidget);
+    expect(find.text('Errou! A resposta é ${pergunta.resposta}.'), findsOneWidget);
   });
 
   testWidgets('explicacao so aparece depois de responder', (WidgetTester tester) async {
     await abrirQuiz(tester);
+    final pergunta = perguntaNaTela();
 
-    expect(find.text(listaPerguntas[0].explicacao), findsNothing);
+    expect(find.text(pergunta.explicacao), findsNothing);
     expect(find.textContaining('Fonte:'), findsNothing);
 
-    await tester.tap(find.text('Verdade'));
+    await tester.tap(find.text(respostaErrada(pergunta)));
     await tester.pump();
 
-    expect(find.text(listaPerguntas[0].explicacao), findsOneWidget);
-    expect(find.text('Fonte: ${listaPerguntas[0].fonte}'), findsOneWidget);
+    expect(find.text(pergunta.explicacao), findsOneWidget);
+    expect(find.text('Fonte: ${pergunta.fonte}'), findsOneWidget);
   });
 
   testWidgets('explicacao some na proxima pergunta', (WidgetTester tester) async {
     await abrirQuiz(tester);
+    final pergunta = perguntaNaTela();
 
-    await tester.tap(find.text('Mito'));
+    await tester.tap(find.text(pergunta.resposta));
     await tester.pump();
     await tocarProxima(tester);
 
-    expect(find.text(listaPerguntas[0].explicacao), findsNothing);
+    expect(find.text(pergunta.explicacao), findsNothing);
     expect(find.textContaining('Fonte:'), findsNothing);
   });
 
   testWidgets('nao da pra trocar a resposta', (WidgetTester tester) async {
     await abrirQuiz(tester);
+    final pergunta = perguntaNaTela();
 
-    await tester.tap(find.text('Verdade'));
+    await tester.tap(find.text(respostaErrada(pergunta)));
     await tester.pump();
-    await tester.tap(find.text('Mito'));
+    await tester.tap(find.text(pergunta.resposta));
     await tester.pump();
 
     expect(find.text('Acertos: 0'), findsOneWidget);
-    expect(find.text('Errou! A resposta é Mito.'), findsOneWidget);
+    expect(find.text('Errou! A resposta é ${pergunta.resposta}.'), findsOneWidget);
   });
 
   testWidgets('proxima muda a pergunta', (WidgetTester tester) async {
     await abrirQuiz(tester);
+    final primeira = perguntaNaTela();
 
-    await tester.tap(find.text('Mito'));
+    await tester.tap(find.text(primeira.resposta));
     await tester.pump();
     await tocarProxima(tester);
 
     expect(find.text('Pergunta 2 de ${listaPerguntas.length}'), findsOneWidget);
-    expect(find.text(listaPerguntas[1].afirmacao), findsOneWidget);
+    expect(find.text(primeira.afirmacao), findsNothing);
+    expect(perguntaNaTela().afirmacao, isNot(primeira.afirmacao));
     expect(find.text('Acertos: 1'), findsOneWidget);
     expect(find.text('Próxima'), findsNothing);
   });
 
+  testWidgets('barra de progresso anda quando responde', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    double progresso() {
+      final barra = find.byType(LinearProgressIndicator);
+      return tester.widget<LinearProgressIndicator>(barra).value!;
+    }
+
+    final total = listaPerguntas.length;
+    expect(progresso(), 0);
+
+    await tester.tap(find.text(perguntaNaTela().resposta));
+    await tester.pump();
+    expect(progresso(), 1 / total);
+
+    // trocar de pergunta nao muda a barra, so responder
+    await tocarProxima(tester);
+    expect(progresso(), 1 / total);
+  });
+
   testWidgets('quiz inteiro leva pro resultado', (WidgetTester tester) async {
     await abrirQuiz(tester);
-    await terminarQuiz(tester);
+    final ordem = await terminarQuiz(tester);
+
+    // cada pergunta aparece uma vez so, mesmo sorteando
+    expect(ordem.toSet(), hasLength(listaPerguntas.length));
 
     final total = listaPerguntas.length;
     expect(find.text('Resultado'), findsOneWidget);
@@ -404,6 +450,17 @@ void main() {
 
     expect(find.text('Pergunta 1 de ${listaPerguntas.length}'), findsOneWidget);
     expect(find.text('Acertos: 0'), findsOneWidget);
+  });
+
+  testWidgets('refazer sorteia outra ordem', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+    final primeira = await terminarQuiz(tester);
+
+    await tester.tap(find.text('Refazer o quiz'));
+    await tester.pumpAndSettle();
+    final segunda = await terminarQuiz(tester);
+
+    expect(segunda, isNot(equals(primeira)));
   });
 
   // abre so a tela de resultado com a nota que eu quiser

@@ -13,14 +13,22 @@ class TelaQuiz extends StatefulWidget {
 }
 
 class _TelaQuizState extends State<TelaQuiz> {
+  // copia a lista pra embaralhar, cada partida vem numa ordem diferente
+  final List<Pergunta> _perguntas = List.of(listaPerguntas)..shuffle();
   int _perguntaAtual = 0;
   int _acertos = 0;
   // null = ainda nao respondeu essa pergunta
   String? _respostaEscolhida;
 
-  Pergunta get _pergunta => listaPerguntas[_perguntaAtual];
+  Pergunta get _pergunta => _perguntas[_perguntaAtual];
   bool get _respondeu => _respostaEscolhida != null;
   bool get _acertou => _respostaEscolhida == _pergunta.resposta;
+
+  // anda quando responde, nao quando troca de pergunta
+  double get _progresso {
+    final respondidas = _perguntaAtual + (_respondeu ? 1 : 0);
+    return respondidas / _perguntas.length;
+  }
 
   void _responder(String resposta) {
     // nao deixa trocar depois de responder
@@ -37,7 +45,7 @@ class _TelaQuizState extends State<TelaQuiz> {
   }
 
   void _proxima() {
-    if (_perguntaAtual == listaPerguntas.length - 1) {
+    if (_perguntaAtual == _perguntas.length - 1) {
       _mostrarResultado();
       return;
     }
@@ -54,7 +62,7 @@ class _TelaQuizState extends State<TelaQuiz> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            TelaResultado(acertos: _acertos, total: listaPerguntas.length),
+            TelaResultado(acertos: _acertos, total: _perguntas.length),
       ),
     );
   }
@@ -139,7 +147,7 @@ class _TelaQuizState extends State<TelaQuiz> {
               children: [
                 Expanded(
                   child: Text(
-                    'Pergunta ${_perguntaAtual + 1} de ${listaPerguntas.length}',
+                    'Pergunta ${_perguntaAtual + 1} de ${_perguntas.length}',
                     style: const TextStyle(color: Cores.textoSuave),
                   ),
                 ),
@@ -151,6 +159,13 @@ class _TelaQuizState extends State<TelaQuiz> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: _progresso,
+              minHeight: 8,
+              borderRadius: BorderRadius.circular(4),
+              backgroundColor: Cores.superficieClara,
             ),
             const SizedBox(height: 16),
             Card(
