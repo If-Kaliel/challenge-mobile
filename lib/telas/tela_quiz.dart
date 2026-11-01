@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../dados/perguntas.dart';
 import '../models/pergunta.dart';
 import '../tema.dart';
+import 'tela_resultado.dart';
 
 class TelaQuiz extends StatefulWidget {
   const TelaQuiz({super.key});
@@ -48,24 +49,13 @@ class _TelaQuizState extends State<TelaQuiz> {
   }
 
   void _mostrarResultado() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (contextoDialog) {
-        return AlertDialog(
-          title: const Text('Quiz terminado!'),
-          content: Text('Você acertou $_acertos de ${listaPerguntas.length}.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(contextoDialog); // fecha o dialog
-                Navigator.pop(context); // volta pro explorar
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
+    // troca a tela pra o voltar do resultado nao cair no quiz ja terminado
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            TelaResultado(acertos: _acertos, total: listaPerguntas.length),
+      ),
     );
   }
 

@@ -43,6 +43,7 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 | Enviar um mito | Formulário com validação |
 | Meus favoritos | Lista dos favoritos, dá pra remover (recebe a lista por parâmetro) |
 | Mito ou verdade | Quiz com 12 afirmações: a pessoa responde Mito, Verdade ou Depende, vê a explicação e a fonte, e o placar muda com `setState` |
+| Resultado | Nota do quiz e mensagem conforme o desempenho (recebe os acertos por parâmetro) |
 | Sobre o app | Informações do app, do desafio, da AMAZUL e as fontes |
 
 ### Fluxo de navegação
@@ -52,13 +53,13 @@ Inicial ──> Explorar ──> Curiosidades ──> Detalhes
    │           │              ├──> Enviar um mito ──(dialog)──> volta pra lista
    │           │              └──> Meus favoritos ──> Detalhes
    │           ├──> Meus favoritos
-   │           └──> Mito ou verdade (quiz)
+   │           └──> Mito ou verdade (quiz) ──> Resultado
    └──> Sobre o app
 ```
 
 ## Requisitos da Sprint 1
 
-- **Navegação:** 8 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade e lista de favoritos).
+- **Navegação:** 9 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade, lista de favoritos e acertos do quiz).
 - **Protótipo visual:** `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`, com tema próprio (escuro, amarelo e preto) em todas as telas.
 - **Gerenciamento de estado:** `StatefulWidget` + `setState()` para favoritar/desfavoritar, com o contador "Favoritos: N" atualizando na hora.
 - **Formulário:** `Form` + `GlobalKey<FormState>` + `TextFormField`, `DropdownButtonFormField` e `Switch`, com validação dos campos, `SnackBar` quando tem erro e `AlertDialog` quando envia.
@@ -118,6 +119,7 @@ lib/
     ├── tela_enviar_mito.dart
     ├── tela_favoritos.dart
     ├── tela_quiz.dart
+    ├── tela_resultado.dart
     └── tela_sobre.dart
 ```
 
@@ -129,7 +131,7 @@ Link do vídeo no YouTube: *em breve*
 >
 > Checklist do que tem que aparecer (máximo **5 minutos**, com narração):
 > - [ ] o app rodando no emulador Android
-> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade e Sobre o app
+> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade, Resultado e Sobre o app
 > - [ ] o fluxo de navegação, indo e voltando entre as telas
 > - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
 > - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)

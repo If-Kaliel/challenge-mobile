@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:efeito_fallout/dados/perguntas.dart';
 import 'package:efeito_fallout/main.dart';
+import 'package:efeito_fallout/telas/tela_resultado.dart';
 
 // a tela padrao do teste e 800x600, ai a grade nao cabe. usa tamanho de celular
 void telaDeCelular(WidgetTester tester) {
@@ -37,6 +38,22 @@ Future<void> tocarProxima(WidgetTester tester) async {
   await tester.pumpAndSettle();
   await tester.tap(find.text('Próxima'));
   await tester.pumpAndSettle();
+}
+
+// responde todas certas e chega na tela de resultado
+Future<void> terminarQuiz(WidgetTester tester) async {
+  for (final pergunta in listaPerguntas) {
+    await tester.ensureVisible(find.text(pergunta.resposta));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text(pergunta.resposta));
+    await tester.pump();
+
+    // toda pergunta tem que mostrar a explicacao e a fonte
+    expect(find.text(pergunta.explicacao), findsOneWidget);
+    expect(find.text('Fonte: ${pergunta.fonte}'), findsOneWidget);
+
+    await tocarProxima(tester);
+  }
 }
 
 void main() {
@@ -347,27 +364,78 @@ void main() {
     expect(find.text('Próxima'), findsNothing);
   });
 
-  testWidgets('quiz inteiro mostra o resultado e volta', (WidgetTester tester) async {
+  testWidgets('quiz inteiro leva pro resultado', (WidgetTester tester) async {
     await abrirQuiz(tester);
-
-    for (final pergunta in listaPerguntas) {
-      await tester.ensureVisible(find.text(pergunta.resposta));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(pergunta.resposta));
-      await tester.pump();
-
-      // toda pergunta tem que mostrar a explicacao e a fonte
-      expect(find.text(pergunta.explicacao), findsOneWidget);
-      expect(find.text('Fonte: ${pergunta.fonte}'), findsOneWidget);
-
-      await tocarProxima(tester);
-    }
+    await terminarQuiz(tester);
 
     final total = listaPerguntas.length;
-    expect(find.text('Você acertou $total de $total.'), findsOneWidget);
+    expect(find.text('Resultado'), findsOneWidget);
+    expect(find.text('$total de $total'), findsOneWidget);
+    expect(find.text('Você acertou 100%'), findsOneWidget);
+    expect(find.text('Especialista em átomos!'), findsOneWidget);
+  });
 
-    await tester.tap(find.text('OK'));
+  testWidgets('voltar do resultado cai no explorar', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+    await terminarQuiz(tester);
+
+    await tester.tap(find.text('Voltar para Explorar'));
     await tester.pumpAndSettle();
+
     expect(find.text('Explorar'), findsOneWidget);
+  });
+
+  testWidgets('seta do resultado nao volta pro quiz', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+    await terminarQuiz(tester);
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    expect(find.text('Explorar'), findsOneWidget);
+  });
+
+  testWidgets('refazer comeca o quiz do zero', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+    await terminarQuiz(tester);
+
+    await tester.tap(find.text('Refazer o quiz'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Pergunta 1 de ${listaPerguntas.length}'), findsOneWidget);
+    expect(find.text('Acertos: 0'), findsOneWidget);
+  });
+
+  // abre so a tela de resultado com a nota que eu quiser
+  Future<void> abrirResultado(WidgetTester tester, int acertos) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(
+      MaterialApp(home: TelaResultado(acertos: acertos, total: 12)),
+    );
+  }
+
+  testWidgets('mensagem muda com a nota', (WidgetTester tester) async {
+    await abrirResultado(tester, 10);
+    expect(find.text('Especialista em átomos!'), findsOneWidget);
+    expect(find.text('Você acertou 83%'), findsOneWidget);
+
+    await abrirResultado(tester, 6);
+    expect(find.text('Mandou bem!'), findsOneWidget);
+
+    await abrirResultado(tester, 5);
+    expect(find.text('Cuidado com os mitos!'), findsOneWidget);
+
+    await abrirResultado(tester, 0);
+    expect(find.text('Cuidado com os mitos!'), findsOneWidget);
+    expect(find.text('Você acertou 0%'), findsOneWidget);
+  });
+
+  testWidgets('resultado aguenta fonte grande', (WidgetTester tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    await abrirResultado(tester, 7);
+
+    expect(tester.takeException(), isNull);
   });
 }
