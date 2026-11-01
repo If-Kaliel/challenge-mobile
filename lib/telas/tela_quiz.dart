@@ -99,6 +99,42 @@ class _TelaQuizState extends State<TelaQuiz> {
     );
   }
 
+  // o desafio da AMAZUL pede explicacao e referencia depois de cada resposta
+  Widget _cardExplicacao() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _pergunta.explicacao,
+              style: const TextStyle(fontSize: 15, height: 1.5),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(Icons.menu_book, size: 16, color: Cores.textoSuave),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    'Fonte: ${_pergunta.fonte}',
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Cores.textoSuave,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,6 +195,8 @@ class _TelaQuizState extends State<TelaQuiz> {
                   color: _acertou ? Cores.verde : Cores.vermelho,
                 ),
               ),
+              const SizedBox(height: 8),
+              _cardExplicacao(),
               const SizedBox(height: 8),
               OutlinedButton(onPressed: _proxima, child: const Text('Próxima')),
             ],

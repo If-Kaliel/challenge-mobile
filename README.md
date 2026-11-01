@@ -42,7 +42,7 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 | Detalhes | Texto completo da curiosidade (recebe a curiosidade por parâmetro) |
 | Enviar um mito | Formulário com validação |
 | Meus favoritos | Lista dos favoritos, dá pra remover (recebe a lista por parâmetro) |
-| Mito ou verdade | Quiz com 12 afirmações: a pessoa responde Mito, Verdade ou Depende e o placar muda com `setState` |
+| Mito ou verdade | Quiz com 12 afirmações: a pessoa responde Mito, Verdade ou Depende, vê a explicação e a fonte, e o placar muda com `setState` |
 | Sobre o app | Informações do app, do desafio, da AMAZUL e as fontes |
 
 ### Fluxo de navegação

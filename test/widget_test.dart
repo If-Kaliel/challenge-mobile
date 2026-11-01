@@ -31,6 +31,14 @@ Future<void> abrirQuiz(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+// a explicacao empurra o botao pra baixo, entao rola ate ele antes de tocar
+Future<void> tocarProxima(WidgetTester tester) async {
+  await tester.ensureVisible(find.text('Próxima'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Próxima'));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
@@ -290,6 +298,30 @@ void main() {
     expect(find.text('Errou! A resposta é Mito.'), findsOneWidget);
   });
 
+  testWidgets('explicacao so aparece depois de responder', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    expect(find.text(listaPerguntas[0].explicacao), findsNothing);
+    expect(find.textContaining('Fonte:'), findsNothing);
+
+    await tester.tap(find.text('Verdade'));
+    await tester.pump();
+
+    expect(find.text(listaPerguntas[0].explicacao), findsOneWidget);
+    expect(find.text('Fonte: ${listaPerguntas[0].fonte}'), findsOneWidget);
+  });
+
+  testWidgets('explicacao some na proxima pergunta', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    await tester.tap(find.text('Mito'));
+    await tester.pump();
+    await tocarProxima(tester);
+
+    expect(find.text(listaPerguntas[0].explicacao), findsNothing);
+    expect(find.textContaining('Fonte:'), findsNothing);
+  });
+
   testWidgets('nao da pra trocar a resposta', (WidgetTester tester) async {
     await abrirQuiz(tester);
 
@@ -307,8 +339,7 @@ void main() {
 
     await tester.tap(find.text('Mito'));
     await tester.pump();
-    await tester.tap(find.text('Próxima'));
-    await tester.pump();
+    await tocarProxima(tester);
 
     expect(find.text('Pergunta 2 de ${listaPerguntas.length}'), findsOneWidget);
     expect(find.text(listaPerguntas[1].afirmacao), findsOneWidget);
@@ -320,10 +351,16 @@ void main() {
     await abrirQuiz(tester);
 
     for (final pergunta in listaPerguntas) {
+      await tester.ensureVisible(find.text(pergunta.resposta));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(pergunta.resposta));
       await tester.pump();
-      await tester.tap(find.text('Próxima'));
-      await tester.pumpAndSettle();
+
+      // toda pergunta tem que mostrar a explicacao e a fonte
+      expect(find.text(pergunta.explicacao), findsOneWidget);
+      expect(find.text('Fonte: ${pergunta.fonte}'), findsOneWidget);
+
+      await tocarProxima(tester);
     }
 
     final total = listaPerguntas.length;
