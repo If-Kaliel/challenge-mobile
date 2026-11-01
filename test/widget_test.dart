@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:efeito_fallout/dados/perguntas.dart';
 import 'package:efeito_fallout/main.dart';
 
 // a tela padrao do teste e 800x600, ai a grade nao cabe. usa tamanho de celular
@@ -17,6 +18,16 @@ Future<void> abrirLista(WidgetTester tester) async {
   await tester.tap(find.text('Começar'));
   await tester.pumpAndSettle();
   await tester.tap(find.text('Ver todas as curiosidades'));
+  await tester.pumpAndSettle();
+}
+
+// abre o app e vai ate o quiz
+Future<void> abrirQuiz(WidgetTester tester) async {
+  telaDeCelular(tester);
+  await tester.pumpWidget(const EfeitoFalloutApp());
+  await tester.tap(find.text('Começar'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Mito ou verdade? Faça o quiz'));
   await tester.pumpAndSettle();
 }
 
@@ -209,5 +220,117 @@ void main() {
     await tester.tap(find.text('Chernobyl (1986)'));
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('quiz aguenta fonte grande', (WidgetTester tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.ensureVisible(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Mito ou verdade? Faça o quiz'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Depende'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Depende'));
+    await tester.pumpAndSettle();
+
+    await tester.ensureVisible(find.text('Próxima'));
+    await tester.pumpAndSettle();
+    expect(find.text('Próxima'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  test('todas as perguntas estao completas', () {
+    for (final pergunta in listaPerguntas) {
+      expect(opcoesQuiz, contains(pergunta.resposta));
+      expect(pergunta.afirmacao, isNotEmpty);
+      expect(pergunta.explicacao, isNotEmpty);
+      expect(pergunta.fonte, isNotEmpty);
+    }
+    // o desafio pede as tres respostas
+    for (final opcao in opcoesQuiz) {
+      expect(listaPerguntas.where((p) => p.resposta == opcao), isNotEmpty);
+    }
+  });
+
+  testWidgets('quiz abre na primeira pergunta', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    expect(find.text('Pergunta 1 de ${listaPerguntas.length}'), findsOneWidget);
+    expect(find.text('Acertos: 0'), findsOneWidget);
+    expect(find.text(listaPerguntas[0].afirmacao), findsOneWidget);
+    expect(find.text('Mito'), findsOneWidget);
+    expect(find.text('Verdade'), findsOneWidget);
+    expect(find.text('Depende'), findsOneWidget);
+    expect(find.text('Próxima'), findsNothing);
+  });
+
+  testWidgets('resposta certa soma ponto', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    await tester.tap(find.text(listaPerguntas[0].resposta));
+    await tester.pump();
+
+    expect(find.text('Acertos: 1'), findsOneWidget);
+    expect(find.text('Acertou!'), findsOneWidget);
+  });
+
+  testWidgets('resposta errada mostra a certa', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    await tester.tap(find.text('Verdade'));
+    await tester.pump();
+
+    expect(find.text('Acertos: 0'), findsOneWidget);
+    expect(find.text('Errou! A resposta é Mito.'), findsOneWidget);
+  });
+
+  testWidgets('nao da pra trocar a resposta', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    await tester.tap(find.text('Verdade'));
+    await tester.pump();
+    await tester.tap(find.text('Mito'));
+    await tester.pump();
+
+    expect(find.text('Acertos: 0'), findsOneWidget);
+    expect(find.text('Errou! A resposta é Mito.'), findsOneWidget);
+  });
+
+  testWidgets('proxima muda a pergunta', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    await tester.tap(find.text('Mito'));
+    await tester.pump();
+    await tester.tap(find.text('Próxima'));
+    await tester.pump();
+
+    expect(find.text('Pergunta 2 de ${listaPerguntas.length}'), findsOneWidget);
+    expect(find.text(listaPerguntas[1].afirmacao), findsOneWidget);
+    expect(find.text('Acertos: 1'), findsOneWidget);
+    expect(find.text('Próxima'), findsNothing);
+  });
+
+  testWidgets('quiz inteiro mostra o resultado e volta', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    for (final pergunta in listaPerguntas) {
+      await tester.tap(find.text(pergunta.resposta));
+      await tester.pump();
+      await tester.tap(find.text('Próxima'));
+      await tester.pumpAndSettle();
+    }
+
+    final total = listaPerguntas.length;
+    expect(find.text('Você acertou $total de $total.'), findsOneWidget);
+
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+    expect(find.text('Explorar'), findsOneWidget);
   });
 }

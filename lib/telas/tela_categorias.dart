@@ -7,6 +7,7 @@ import '../tema.dart';
 import '../widgets/imagem_rede.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
+import 'tela_quiz.dart';
 
 class TelaCategorias extends StatefulWidget {
   const TelaCategorias({super.key});
@@ -84,6 +85,17 @@ class _TelaCategoriasState extends State<TelaCategorias> {
               ),
             ),
             const SizedBox(height: 12),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TelaQuiz()),
+                );
+              },
+              icon: const Icon(Icons.quiz),
+              label: const Text('Mito ou verdade? Faça o quiz'),
+            ),
+            const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: () => _abrirCuriosidades(null),
               icon: const Icon(Icons.list),

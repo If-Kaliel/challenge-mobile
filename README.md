@@ -42,6 +42,7 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 | Detalhes | Texto completo da curiosidade (recebe a curiosidade por parâmetro) |
 | Enviar um mito | Formulário com validação |
 | Meus favoritos | Lista dos favoritos, dá pra remover (recebe a lista por parâmetro) |
+| Mito ou verdade | Quiz com 12 afirmações: a pessoa responde Mito, Verdade ou Depende e o placar muda com `setState` |
 | Sobre o app | Informações do app, do desafio, da AMAZUL e as fontes |
 
 ### Fluxo de navegação
@@ -50,13 +51,14 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 Inicial ──> Explorar ──> Curiosidades ──> Detalhes
    │           │              ├──> Enviar um mito ──(dialog)──> volta pra lista
    │           │              └──> Meus favoritos ──> Detalhes
-   │           └──> Meus favoritos
+   │           ├──> Meus favoritos
+   │           └──> Mito ou verdade (quiz)
    └──> Sobre o app
 ```
 
 ## Requisitos da Sprint 1
 
-- **Navegação:** 7 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade e lista de favoritos).
+- **Navegação:** 8 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade e lista de favoritos).
 - **Protótipo visual:** `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`, com tema próprio (escuro, amarelo e preto) em todas as telas.
 - **Gerenciamento de estado:** `StatefulWidget` + `setState()` para favoritar/desfavoritar, com o contador "Favoritos: N" atualizando na hora.
 - **Formulário:** `Form` + `GlobalKey<FormState>` + `TextFormField`, `DropdownButtonFormField` e `Switch`, com validação dos campos, `SnackBar` quando tem erro e `AlertDialog` quando envia.
@@ -100,10 +102,12 @@ lib/
 ├── tema.dart              # cores e ThemeData do app
 ├── models/
 │   ├── curiosidade.dart
-│   └── categoria.dart
+│   ├── categoria.dart
+│   └── pergunta.dart
 ├── dados/                 # dados mockados
 │   ├── curiosidades.dart
-│   └── categorias.dart
+│   ├── categorias.dart
+│   └── perguntas.dart
 ├── widgets/
 │   └── imagem_rede.dart
 └── telas/
@@ -113,6 +117,7 @@ lib/
     ├── tela_detalhe.dart
     ├── tela_enviar_mito.dart
     ├── tela_favoritos.dart
+    ├── tela_quiz.dart
     └── tela_sobre.dart
 ```
 
@@ -124,7 +129,7 @@ Link do vídeo no YouTube: *em breve*
 >
 > Checklist do que tem que aparecer (máximo **5 minutos**, com narração):
 > - [ ] o app rodando no emulador Android
-> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos e Sobre o app
+> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade e Sobre o app
 > - [ ] o fluxo de navegação, indo e voltando entre as telas
 > - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
 > - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)
