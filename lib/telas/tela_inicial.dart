@@ -33,10 +33,9 @@ class TelaInicial extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: const Icon(
-                      Icons.warning_amber,
-                      size: 72,
-                      color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Image.asset('assets/imagens/simbolo_radiacao.png'),
                     ),
                   ),
                 ),

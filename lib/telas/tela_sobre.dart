@@ -8,9 +8,7 @@ class TelaSobre extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Sobre o app'),
-      ),
+      appBar: AppBar(title: const Text('Sobre o app')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -23,7 +21,10 @@ class TelaSobre extends StatelessWidget {
                 color: Cores.amarelo,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.warning_amber, size: 48, color: Colors.black),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Image.asset('assets/imagens/simbolo_radiacao.png'),
+              ),
             ),
           ),
           const SizedBox(height: 12),
@@ -75,14 +76,21 @@ class TelaSobre extends StatelessWidget {
                       SizedBox(width: 8),
                       Text(
                         'Fontes',
-                        style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                   SizedBox(height: 8),
-                  _Fonte(texto: 'AIEA - Agência Internacional de Energia Atômica'),
+                  _Fonte(
+                    texto: 'AIEA - Agência Internacional de Energia Atômica',
+                  ),
                   _Fonte(texto: 'CNEN - Comissão Nacional de Energia Nuclear'),
-                  _Fonte(texto: 'AMAZUL - Kick-off do Challenge FIAP (out/2026)'),
+                  _Fonte(
+                    texto: 'AMAZUL - Kick-off do Challenge FIAP (out/2026)',
+                  ),
                   _Fonte(texto: 'IPCC - emissões de CO2 por fonte de energia'),
                   _Fonte(texto: 'Imagens: Wikimedia Commons'),
                 ],
@@ -130,7 +138,10 @@ class _CardInfo extends StatelessWidget {
                 Expanded(
                   child: Text(
                     titulo,
-                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],

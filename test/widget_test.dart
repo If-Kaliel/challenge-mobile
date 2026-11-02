@@ -78,6 +78,7 @@ void main() {
     await tester.pumpWidget(const EfeitoFalloutApp());
 
     expect(find.text('EFEITO FALLOUT'), findsOneWidget);
+    expect(find.byType(Image), findsOneWidget); // o simbolo de radiacao
     expect(find.textContaining('Curiosidades sobre energia nuclear'), findsOneWidget);
     expect(find.text('Começar'), findsOneWidget);
   });
