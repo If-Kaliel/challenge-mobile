@@ -140,7 +140,7 @@ class _CardCreditos extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Fotos do Wikimedia Commons, reduzidas pra caber no app.',
+              'Fotos do Wikimedia Commons, reduzidas pra caber no app. As da categoria Tragédias ganharam um filtro vermelho.',
               style: TextStyle(color: Cores.textoSuave),
             ),
             const SizedBox(height: 8),

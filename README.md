@@ -47,7 +47,8 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 | Meus favoritos | Lista dos favoritos, dá pra remover (recebe a lista por parâmetro) |
 | Mito ou verdade | Quiz com 12 afirmações em ordem sorteada: a pessoa responde Mito, Verdade ou Depende, vê a explicação e a fonte, e o placar e a barra de progresso mudam com `setState` |
 | Resultado | Nota do quiz, mensagem conforme o desempenho e revisão do que errou (recebe os dados por parâmetro) |
-| Sobre o app | Informações do app, do desafio, da AMAZUL e as fontes |
+| Linha do tempo | 17 eventos de 1895 a 2026 em ordem, com filtro de avanços e tragédias |
+| Sobre o app | Informações do app, do desafio, da AMAZUL, as fontes e os créditos das fotos |
 
 ### Fluxo de navegação
 
@@ -56,13 +57,14 @@ Inicial ──> Explorar ──> Curiosidades ──> Detalhes
    │           │              ├──> Enviar um mito
    │           │              └──> Meus favoritos ──> Detalhes
    │           ├──> Meus favoritos
-   │           └──> Mito ou verdade (quiz) ──> Resultado
+   │           ├──> Mito ou verdade (quiz) ──> Resultado
+   │           └──> Linha do tempo ──> Detalhes
    └──> Sobre o app
 ```
 
 ## Requisitos da Sprint 1
 
-- **Navegação:** 9 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade, lista de favoritos e acertos do quiz).
+- **Navegação:** 10 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade, lista de favoritos e acertos do quiz).
 - **Protótipo visual:** `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`, com tema próprio (escuro, amarelo e preto) em todas as telas.
 - **Gerenciamento de estado:** `StatefulWidget` + `setState()` para favoritar/desfavoritar, com o contador "Favoritos: N" atualizando na hora.
 - **Formulário:** `Form` + `GlobalKey<FormState>` + `TextFormField`, `DropdownButtonFormField` e `Switch`, com validação dos campos, `SnackBar` quando tem erro e `AlertDialog` quando envia.
@@ -116,6 +118,7 @@ lib/
 │   └── imagem_local.dart
 └── telas/
     ├── tela_inicial.dart
+    ├── tela_linha_do_tempo.dart
     ├── tela_categorias.dart
     ├── tela_curiosidades.dart
     ├── tela_detalhe.dart
@@ -134,7 +137,7 @@ Link do vídeo no YouTube: *em breve*
 >
 > Checklist do que tem que aparecer (máximo **5 minutos**, com narração):
 > - [ ] o app rodando no emulador Android
-> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade, Resultado e Sobre o app
+> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade, Resultado, Linha do tempo e Sobre o app
 > - [ ] o fluxo de navegação, indo e voltando entre as telas
 > - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
 > - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)

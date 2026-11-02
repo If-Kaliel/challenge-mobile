@@ -74,8 +74,12 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
 
   @override
   Widget build(BuildContext context) {
+    final fundo = fundoDaCategoria(widget.categoria ?? '');
+
     return Scaffold(
+      backgroundColor: fundo,
       appBar: AppBar(
+        backgroundColor: fundo,
         title: Text(widget.categoria ?? 'Curiosidades'),
         actions: [
           IconButton(
@@ -146,12 +150,13 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
                 final favorito = favoritos.contains(curiosidade);
 
                 return Card(
+                  color: cardDaCategoria(curiosidade.categoria),
                   margin: const EdgeInsets.symmetric(vertical: 6),
                   child: ListTile(
                     contentPadding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
                     leading: Icon(
                       iconeDaCategoria(curiosidade.categoria),
-                      color: Cores.amarelo,
+                      color: corDaCategoria(curiosidade.categoria),
                     ),
                     title: Text(
                       curiosidade.titulo,

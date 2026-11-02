@@ -7,6 +7,8 @@ class Curiosidade {
   // explica o que aparece na foto
   final String legenda;
   final String creditoFoto;
+  // null = nao entra na linha do tempo
+  final int? ano;
 
   const Curiosidade({
     required this.titulo,
@@ -16,5 +18,6 @@ class Curiosidade {
     required this.imagem,
     required this.legenda,
     required this.creditoFoto,
+    this.ano,
   });
 }

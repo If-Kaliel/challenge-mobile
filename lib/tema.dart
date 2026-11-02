@@ -8,6 +8,14 @@ class Cores {
   static const amarelo = Color(0xFFFFC928);
   static const vermelho = Color(0xFFE53935);
   static const verde = Color(0xFF2EC4B6);
+  static const azul = Color(0xFF5AA9FF);
+  // fundo das telas de tragedia e de medicina, pra cada uma ter seu clima
+  static const fundoTragedia = Color(0xFF1C0808);
+  static const fundoEsperanca = Color(0xFF08201E);
+  static const cardTragedia = Color(0xFF3A1212);
+  static const cardEsperanca = Color(0xFF103230);
+  // filtro que deixa as fotos das tragedias vermelhas e sem cor
+  static const filtroTragedia = Color(0xFF8B1A1A);
   static const texto = Colors.white;
   static const textoSuave = Color(0xFF9AA4B2);
 }

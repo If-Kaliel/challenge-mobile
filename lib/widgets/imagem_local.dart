@@ -8,12 +8,15 @@ class ImagemLocal extends StatelessWidget {
   final double? altura;
   // icone que aparece se a foto nao for encontrada
   final IconData iconeErro;
+  // deixa a foto vermelha, usado nas tragedias
+  final bool sombria;
 
   const ImagemLocal({
     super.key,
     required this.caminho,
     this.altura,
     this.iconeErro = Icons.image_not_supported,
+    this.sombria = false,
   });
 
   @override
@@ -23,6 +26,8 @@ class ImagemLocal extends StatelessWidget {
       height: altura,
       width: double.infinity,
       fit: BoxFit.cover,
+      color: sombria ? Cores.filtroTragedia : null,
+      colorBlendMode: sombria ? BlendMode.color : null,
       errorBuilder: (context, erro, stackTrace) {
         return Container(
           height: altura,

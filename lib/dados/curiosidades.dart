@@ -4,11 +4,12 @@ import '../models/curiosidade.dart';
 const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Chernobyl (1986)',
+    ano: 1986,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/chernobyl.jpg',
     legenda:
-        'Pripyat abandonada. Lá no fundo, o domo que hoje cobre o reator 4 de Chernobyl.',
-    creditoFoto: 'Hnapel, CC0',
+        'O reator 4 de Chernobyl destruído pela explosão, em 1986.',
+    creditoFoto: 'IAEA Imagebank, CC BY-SA 2.0',
     resumo:
         'O pior acidente nuclear da história aconteceu na Ucrânia, em 26 de abril de 1986, quando o reator 4 explodiu.',
     texto:
@@ -18,6 +19,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Césio-137 em Goiânia (1987)',
+    ano: 1987,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/goiania.jpg',
     legenda:
@@ -33,6 +35,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Hiroshima e Nagasaki (1945)',
+    ano: 1945,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/hiroshima.jpg',
     legenda:
@@ -46,6 +49,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Fukushima (2011)',
+    ano: 2011,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/fukushima.jpg',
     legenda:
@@ -60,6 +64,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Three Mile Island (1979)',
+    ano: 1979,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/three_mile_island.jpg',
     legenda:
@@ -74,6 +79,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Castle Bravo (1954)',
+    ano: 1954,
     categoria: 'Tragédias',
     imagem: 'assets/imagens/fotos/castle_bravo.jpg',
     legenda:
@@ -89,6 +95,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'O primeiro raio-X (1895)',
+    ano: 1895,
     categoria: 'Medicina',
     imagem: 'assets/imagens/fotos/raio_x.jpg',
     legenda:
@@ -103,6 +110,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Exame PET',
+    ano: 1975,
     categoria: 'Medicina',
     imagem: 'assets/imagens/fotos/pet.jpg',
     legenda:
@@ -117,6 +125,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Iodo radioativo na tireoide',
+    ano: 1941,
     categoria: 'Medicina',
     imagem: 'assets/imagens/fotos/iodo.jpg',
     legenda:
@@ -131,6 +140,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Radioterapia',
+    ano: 1951,
     categoria: 'Medicina',
     imagem: 'assets/imagens/fotos/radioterapia.jpg',
     legenda:
@@ -146,6 +156,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Angra 1 e Angra 2',
+    ano: 1985,
     categoria: 'Energia',
     imagem: 'assets/imagens/fotos/angra.jpg',
     legenda:
@@ -188,6 +199,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'As primeiras lâmpadas nucleares (1951)',
+    ano: 1951,
     categoria: 'Energia',
     imagem: 'assets/imagens/fotos/lampadas.jpg',
     legenda:
@@ -216,6 +228,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'Marie Curie',
+    ano: 1898,
     categoria: 'Ciência',
     imagem: 'assets/imagens/fotos/marie_curie.jpg',
     legenda:
@@ -230,6 +243,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'O primeiro reator (1942)',
+    ano: 1942,
     categoria: 'Ciência',
     imagem: 'assets/imagens/fotos/primeiro_reator.jpg',
     legenda:
@@ -242,4 +256,53 @@ const List<Curiosidade> listaCuriosidades = [
         'Foi a primeira reação nuclear em cadeia controlada da história. '
         'Não tinha blindagem nenhuma, e uma equipe ficava lá em cima com baldes de cádmio pra jogar no reator se algo desse errado.',
   ),
+  Curiosidade(
+    titulo: 'A fissão nuclear (1938)',
+    ano: 1938,
+    categoria: 'Ciência',
+    imagem: 'assets/imagens/fotos/hahn_meitner.jpg',
+    legenda: 'Otto Hahn e Lise Meitner no laboratório, em 1912.',
+    creditoFoto: 'autor desconhecido, domínio público',
+    resumo:
+        'Otto Hahn e Fritz Strassmann dividiram o núcleo do urânio, e Lise Meitner explicou o que tinha acontecido.',
+    texto:
+        'Em dezembro de 1938, em Berlim, Otto Hahn e Fritz Strassmann bombardearam urânio com nêutrons e encontraram bário, um elemento bem mais leve. '
+        'Lise Meitner, que tinha fugido da Alemanha nazista, e o sobrinho dela, Otto Frisch, explicaram o resultado: o núcleo tinha se dividido. Eles chamaram isso de fissão. '
+        'O Nobel de 1944 ficou só com Hahn, uma injustiça lembrada até hoje.',
+  ),
+  Curiosidade(
+    titulo: 'A ignição da fusão (2022)',
+    ano: 2022,
+    categoria: 'Ciência',
+    imagem: 'assets/imagens/fotos/fusao.jpg',
+    legenda: 'Por dentro da câmara de alvo do National Ignition Facility.',
+    creditoFoto: 'Lawrence Livermore National Security, CC BY-SA 3.0',
+    resumo:
+        'Pela primeira vez um experimento de fusão liberou mais energia do que os lasers colocaram nele.',
+    texto:
+        'Em 5 de dezembro de 2022, o National Ignition Facility, nos EUA, apontou 192 lasers pra uma cápsula minúscula de combustível. '
+        'Entraram 2,05 megajoules dos lasers e saíram 3,15 megajoules de fusão, a mesma reação que acontece no Sol. '
+        'Ainda é um experimento e está longe de virar usina, mas foi um marco da ciência.',
+  ),
+  Curiosidade(
+    titulo: 'Onkalo, o depósito definitivo (2026)',
+    ano: 2026,
+    categoria: 'Energia',
+    imagem: 'assets/imagens/fotos/onkalo.jpg',
+    legenda: 'Os túneis do Onkalo, em Olkiluoto, na Finlândia.',
+    creditoFoto: 'kallerna, CC BY-SA 4.0',
+    resumo:
+        'A Finlândia licenciou o primeiro depósito definitivo do mundo pro combustível nuclear usado.',
+    texto:
+        'O Onkalo fica em Olkiluoto, na Finlândia, em túneis cavados na rocha a mais de 400 metros de profundidade. '
+        'O combustível usado vai ser guardado em cápsulas de cobre e enterrado ali. '
+        'O governo finlandês deu a licença em 22 de outubro de 2026, e o depósito ainda vai começar a operar.',
+  ),
 ];
+
+// so o que tem ano, do mais antigo pro mais novo
+List<Curiosidade> eventosDaLinhaDoTempo() {
+  final eventos = listaCuriosidades.where((c) => c.ano != null).toList();
+  eventos.sort((a, b) => a.ano!.compareTo(b.ano!));
+  return eventos;
+}

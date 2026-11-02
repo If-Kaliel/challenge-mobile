@@ -9,6 +9,7 @@ import 'package:efeito_fallout/dados/perguntas.dart';
 import 'package:efeito_fallout/main.dart';
 import 'package:efeito_fallout/models/pergunta.dart';
 import 'package:efeito_fallout/telas/tela_resultado.dart';
+import 'package:efeito_fallout/tema.dart';
 
 // a tela padrao do teste e 800x600, ai a grade nao cabe. usa tamanho de celular
 void telaDeCelular(WidgetTester tester) {
@@ -108,6 +109,16 @@ Future<void> enviarMito(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+// abre o app e vai ate a linha do tempo
+Future<void> abrirLinhaDoTempo(WidgetTester tester) async {
+  telaDeCelular(tester);
+  await tester.pumpWidget(const EfeitoFalloutApp());
+  await tester.tap(find.text('Começar'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Linha do tempo'));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
@@ -169,7 +180,7 @@ void main() {
 
     expect(find.text('Detalhes'), findsOneWidget);
     expect(find.textContaining('zona de exclusão'), findsOneWidget);
-    expect(find.textContaining('Foto: Hnapel, CC0.'), findsOneWidget);
+    expect(find.textContaining('Foto: IAEA Imagebank, CC BY-SA 2.0.'), findsOneWidget);
   });
 
   testWidgets('favoritar muda o contador', (WidgetTester tester) async {
@@ -636,6 +647,108 @@ void main() {
     addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 
     await abrirResultado(tester, 7);
+
+    expect(tester.takeException(), isNull);
+  });
+
+  test('linha do tempo fica em ordem de ano', () {
+    final anos = eventosDaLinhaDoTempo().map((e) => e.ano!).toList();
+
+    expect(anos.first, 1895);
+    expect(anos.last, 2026);
+    for (var i = 1; i < anos.length; i++) {
+      expect(anos[i], greaterThanOrEqualTo(anos[i - 1]));
+    }
+  });
+
+  testWidgets('linha do tempo abre com todos os eventos', (WidgetTester tester) async {
+    await abrirLinhaDoTempo(tester);
+    final total = eventosDaLinhaDoTempo().length;
+
+    expect(find.text('$total eventos, de 1895 a 2026'), findsOneWidget);
+    expect(find.text('1895'), findsOneWidget);
+    expect(find.text('O primeiro raio-X (1895)'), findsOneWidget);
+  });
+
+  testWidgets('filtro mostra so as tragedias', (WidgetTester tester) async {
+    await abrirLinhaDoTempo(tester);
+
+    await tester.tap(find.text('Tragédias'));
+    await tester.pumpAndSettle();
+
+    final tragedias = eventosDaLinhaDoTempo()
+        .where((e) => e.categoria == 'Tragédias')
+        .length;
+    expect(find.text('$tragedias eventos, de 1945 a 2011'), findsOneWidget);
+    expect(find.text('Hiroshima e Nagasaki (1945)'), findsOneWidget);
+    expect(find.text('O primeiro raio-X (1895)'), findsNothing);
+  });
+
+  testWidgets('filtro mostra so os avancos e volta', (WidgetTester tester) async {
+    await abrirLinhaDoTempo(tester);
+
+    await tester.tap(find.text('Avanços'));
+    await tester.pumpAndSettle();
+    expect(find.text('O primeiro raio-X (1895)'), findsOneWidget);
+    expect(find.text('Hiroshima e Nagasaki (1945)'), findsNothing);
+
+    await tester.tap(find.text('Todos'));
+    await tester.pumpAndSettle();
+    expect(
+      find.text('${eventosDaLinhaDoTempo().length} eventos, de 1895 a 2026'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('tocar no evento abre os detalhes', (WidgetTester tester) async {
+    await abrirLinhaDoTempo(tester);
+
+    await tester.tap(find.text('O primeiro raio-X (1895)'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Detalhes'), findsOneWidget);
+    expect(find.textContaining('Anna Bertha'), findsWidgets);
+  });
+
+  testWidgets('tragedias tem foto vermelha e fundo proprio', (WidgetTester tester) async {
+    await abrirLista(tester);
+
+    await tester.tap(find.text('Chernobyl (1986)'));
+    await tester.pumpAndSettle();
+
+    final tela = tester.widget<Scaffold>(find.byType(Scaffold).last);
+    expect(tela.backgroundColor, Cores.fundoTragedia);
+    expect(tester.widget<Image>(find.byType(Image)).color, Cores.filtroTragedia);
+  });
+
+  testWidgets('medicina nao tem o filtro vermelho', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Medicina'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Exame PET'));
+    await tester.pumpAndSettle();
+
+    final tela = tester.widget<Scaffold>(find.byType(Scaffold).last);
+    expect(tela.backgroundColor, Cores.fundoEsperanca);
+    expect(tester.widget<Image>(find.byType(Image)).color, isNull);
+  });
+
+  testWidgets('linha do tempo aguenta fonte grande', (WidgetTester tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.ensureVisible(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Linha do tempo'));
+    await tester.pumpAndSettle();
 
     expect(tester.takeException(), isNull);
   });

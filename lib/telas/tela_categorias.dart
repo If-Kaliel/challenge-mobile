@@ -4,10 +4,10 @@ import '../dados/categorias.dart';
 import '../models/categoria.dart';
 import '../models/curiosidade.dart';
 import '../models/mito_enviado.dart';
-import '../tema.dart';
 import '../widgets/imagem_local.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
+import 'tela_linha_do_tempo.dart';
 import 'tela_quiz.dart';
 
 class TelaCategorias extends StatefulWidget {
@@ -100,6 +100,19 @@ class _TelaCategoriasState extends State<TelaCategorias> {
             ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const TelaLinhaDoTempo(),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.timeline),
+              label: const Text('Linha do tempo'),
+            ),
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
               onPressed: () => _abrirCuriosidades(null),
               icon: const Icon(Icons.list),
               label: const Text('Ver todas as curiosidades'),
@@ -112,6 +125,7 @@ class _TelaCategoriasState extends State<TelaCategorias> {
 
   Widget _cardCategoria(Categoria categoria) {
     return Card(
+      color: categoria.corCard,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => _abrirCuriosidades(categoria.nome),
@@ -122,13 +136,14 @@ class _TelaCategoriasState extends State<TelaCategorias> {
               child: ImagemLocal(
                 caminho: categoria.imagem,
                 iconeErro: categoria.icone,
+                sombria: categoria.nome == 'Tragédias',
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  Icon(categoria.icone, color: Cores.amarelo),
+                  Icon(categoria.icone, color: categoria.cor),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(

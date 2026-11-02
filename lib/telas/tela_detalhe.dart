@@ -12,8 +12,14 @@ class TelaDetalhe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final tragedia = curiosidade.categoria == 'Tragédias';
+    final fundo = fundoDaCategoria(curiosidade.categoria);
+    // preto nao aparece bem em cima do vermelho
+    final corEtiqueta = tragedia ? Colors.white : Colors.black;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Detalhes')),
+      backgroundColor: fundo,
+      appBar: AppBar(backgroundColor: fundo, title: const Text('Detalhes')),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,6 +28,7 @@ class TelaDetalhe extends StatelessWidget {
               caminho: curiosidade.imagem,
               altura: 260,
               iconeErro: iconeDaCategoria(curiosidade.categoria),
+              sombria: tragedia,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),
@@ -46,7 +53,7 @@ class TelaDetalhe extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Cores.amarelo,
+                      color: corDaCategoria(curiosidade.categoria),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Row(
@@ -55,13 +62,13 @@ class TelaDetalhe extends StatelessWidget {
                         Icon(
                           iconeDaCategoria(curiosidade.categoria),
                           size: 16,
-                          color: Colors.black,
+                          color: corEtiqueta,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           curiosidade.categoria,
-                          style: const TextStyle(
-                            color: Colors.black,
+                          style: TextStyle(
+                            color: corEtiqueta,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
