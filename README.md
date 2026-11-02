@@ -11,6 +11,9 @@ Aplicativo mobile de curiosidades sobre energia nuclear, feito em **Flutter** pa
 | Kaliel Aquino | RM567587 |
 | Andre Matuda | RM566733 |
 | Paulo Diedrich | RM567618 |
+| Guilherme Barca | RM568517 |
+| Guilherme Feitosa | RM566842 |
+
 
 ## Empresa parceira
 
