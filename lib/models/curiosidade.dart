@@ -6,6 +6,7 @@ class Curiosidade {
   final String imagem;
   // explica o que aparece na foto
   final String legenda;
+  final String creditoFoto;
 
   const Curiosidade({
     required this.titulo,
@@ -14,5 +15,6 @@ class Curiosidade {
     required this.categoria,
     required this.imagem,
     required this.legenda,
+    required this.creditoFoto,
   });
 }

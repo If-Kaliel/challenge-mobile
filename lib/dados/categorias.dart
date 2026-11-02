@@ -2,34 +2,34 @@ import 'package:flutter/material.dart';
 
 import '../models/categoria.dart';
 
-// imagens da wikimedia commons
+// fotos do wikimedia commons, guardadas em assets pra funcionar sem internet
 const List<Categoria> listaCategorias = [
   Categoria(
     nome: 'Tragédias',
     icone: Icons.warning_amber,
     // escola abandonada em Pripyat, perto de Chernobyl
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Pripyat_Abandoned_School.jpg/960px-Pripyat_Abandoned_School.jpg',
+    imagem: 'assets/imagens/fotos/tema_tragedias.jpg',
+    creditoFoto: 'Shanomag, CC BY-SA 4.0',
   ),
   Categoria(
     nome: 'Medicina',
     icone: Icons.local_hospital,
     // exame PET do cerebro
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/PET-image.jpg/960px-PET-image.jpg',
+    imagem: 'assets/imagens/fotos/pet.jpg',
+    creditoFoto: 'Jens Maus, domínio público',
   ),
   Categoria(
     nome: 'Energia',
     icone: Icons.bolt,
     // usina de Angra
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d0/Angra1.jpg/960px-Angra1.jpg',
+    imagem: 'assets/imagens/fotos/tema_energia.jpg',
+    creditoFoto: 'Rodrigo Soldon, CC BY 2.0',
   ),
   Categoria(
     nome: 'Ciência',
     icone: Icons.science,
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Marie_Curie_c1920.jpg/960px-Marie_Curie_c1920.jpg',
+    imagem: 'assets/imagens/fotos/tema_ciencia.jpg',
+    creditoFoto: 'Henri Manuel, domínio público',
   ),
 ];
 

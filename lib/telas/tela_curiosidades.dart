@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../dados/categorias.dart';
 import '../dados/curiosidades.dart';
 import '../models/curiosidade.dart';
+import '../models/mito_enviado.dart';
 import '../tema.dart';
 import 'tela_detalhe.dart';
 import 'tela_enviar_mito.dart';
@@ -12,8 +13,14 @@ class TelaCuriosidades extends StatefulWidget {
   // se vier null mostra todas
   final String? categoria;
   final List<Curiosidade> favoritos;
+  final List<MitoEnviado> mitosEnviados;
 
-  const TelaCuriosidades({super.key, this.categoria, required this.favoritos});
+  const TelaCuriosidades({
+    super.key,
+    this.categoria,
+    required this.favoritos,
+    required this.mitosEnviados,
+  });
 
   @override
   State<TelaCuriosidades> createState() => _TelaCuriosidadesState();
@@ -82,7 +89,10 @@ class _TelaCuriosidadesState extends State<TelaCuriosidades> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const TelaEnviarMito()),
+            MaterialPageRoute(
+              builder: (context) =>
+                  TelaEnviarMito(mitosEnviados: widget.mitosEnviados),
+            ),
           );
         },
         icon: const Icon(Icons.add_comment),

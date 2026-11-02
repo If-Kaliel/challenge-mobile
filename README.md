@@ -43,17 +43,17 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 | Explorar | `GridView` com as 4 categorias (Tragédias, Medicina, Energia, Ciência) com imagens |
 | Curiosidades | Lista filtrada pela categoria, botão de favoritar e contador de favoritos |
 | Detalhes | Texto completo da curiosidade (recebe a curiosidade por parâmetro) |
-| Enviar um mito | Formulário com validação |
+| Enviar um mito | Formulário com validação e lista de mitos enviados, dá pra remover |
 | Meus favoritos | Lista dos favoritos, dá pra remover (recebe a lista por parâmetro) |
 | Mito ou verdade | Quiz com 12 afirmações em ordem sorteada: a pessoa responde Mito, Verdade ou Depende, vê a explicação e a fonte, e o placar e a barra de progresso mudam com `setState` |
-| Resultado | Nota do quiz e mensagem conforme o desempenho (recebe os acertos por parâmetro) |
+| Resultado | Nota do quiz, mensagem conforme o desempenho e revisão do que errou (recebe os dados por parâmetro) |
 | Sobre o app | Informações do app, do desafio, da AMAZUL e as fontes |
 
 ### Fluxo de navegação
 
 ```
 Inicial ──> Explorar ──> Curiosidades ──> Detalhes
-   │           │              ├──> Enviar um mito ──(dialog)──> volta pra lista
+   │           │              ├──> Enviar um mito
    │           │              └──> Meus favoritos ──> Detalhes
    │           ├──> Meus favoritos
    │           └──> Mito ou verdade (quiz) ──> Resultado
@@ -73,7 +73,6 @@ Inicial ──> Explorar ──> Curiosidades ──> Detalhes
 
 - Flutter **3.44** ou mais novo (Dart 3.12)
 - Android Studio com um emulador Android, ou um celular Android com depuração USB
-- Internet no emulador/celular (as imagens das categorias vêm da internet)
 
 **Passo a passo**
 
@@ -96,7 +95,7 @@ flutter test
 - Dart 3.12
 - Material Design 3
 - Nenhum pacote externo além do Flutter (estado só com `setState`)
-- Imagens do Wikimedia Commons
+- Fotos do Wikimedia Commons, guardadas dentro do app (funciona sem internet)
 
 ## Estrutura do projeto
 
@@ -107,13 +106,14 @@ lib/
 ├── models/
 │   ├── curiosidade.dart
 │   ├── categoria.dart
+│   ├── mito_enviado.dart
 │   └── pergunta.dart
 ├── dados/                 # dados mockados
 │   ├── curiosidades.dart
 │   ├── categorias.dart
 │   └── perguntas.dart
 ├── widgets/
-│   └── imagem_rede.dart
+│   └── imagem_local.dart
 └── telas/
     ├── tela_inicial.dart
     ├── tela_categorias.dart
@@ -146,4 +146,4 @@ Link do vídeo no YouTube: *em breve*
 - CNEN - Comissão Nacional de Energia Nuclear
 - AMAZUL - apresentação de kick-off do Challenge FIAP (13/10/2026)
 - IPCC - emissões de CO2 por fonte de energia
-- Imagens: Wikimedia Commons
+- Fotos: Wikimedia Commons (autor e licença de cada uma estão na tela Sobre o app)

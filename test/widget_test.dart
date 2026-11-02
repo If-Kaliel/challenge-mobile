@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:efeito_fallout/dados/categorias.dart';
+import 'package:efeito_fallout/dados/curiosidades.dart';
 import 'package:efeito_fallout/dados/perguntas.dart';
 import 'package:efeito_fallout/main.dart';
 import 'package:efeito_fallout/models/pergunta.dart';
@@ -73,6 +77,37 @@ Future<List<String>> terminarQuiz(WidgetTester tester) async {
   return ordem;
 }
 
+// preenche o formulario certinho, ainda sem enviar
+Future<void> preencherMito(WidgetTester tester, String afirmacao) async {
+  await tester.enterText(
+    find.widgetWithText(TextFormField, 'Nome'),
+    'Joao Silva',
+  );
+  await tester.enterText(
+    find.widgetWithText(TextFormField, 'E-mail'),
+    'joao@email.com',
+  );
+  await tester.enterText(
+    find.widgetWithText(TextFormField, 'O que você ouviu?'),
+    afirmacao,
+  );
+  await tester.ensureVisible(find.text('Categoria'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Categoria'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Energia').last);
+  await tester.pumpAndSettle();
+}
+
+Future<void> enviarMito(WidgetTester tester) async {
+  await tester.ensureVisible(find.text('Enviar'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Enviar'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('OK'));
+  await tester.pumpAndSettle();
+}
+
 void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
@@ -134,6 +169,7 @@ void main() {
 
     expect(find.text('Detalhes'), findsOneWidget);
     expect(find.textContaining('zona de exclusão'), findsOneWidget);
+    expect(find.textContaining('Foto: Hnapel, CC0.'), findsOneWidget);
   });
 
   testWidgets('favoritar muda o contador', (WidgetTester tester) async {
@@ -212,34 +248,111 @@ void main() {
     expect(find.text('Escreva o que você ouviu'), findsOneWidget);
   });
 
-  testWidgets('formulario certo mostra o dialog e volta pra lista', (WidgetTester tester) async {
+  testWidgets('formulario certo entra na lista e limpa', (WidgetTester tester) async {
     await abrirLista(tester);
     await tester.tap(find.text('Enviar mito'));
     await tester.pumpAndSettle();
 
-    await tester.enterText(find.widgetWithText(TextFormField, 'Nome'), 'Joao Silva');
-    await tester.enterText(find.widgetWithText(TextFormField, 'E-mail'), 'joao@email.com');
-    await tester.enterText(
-      find.widgetWithText(TextFormField, 'O que você ouviu?'),
-      'Quem mora perto de usina fica radioativo',
-    );
-
-    await tester.tap(find.text('Categoria'));
-    await tester.pumpAndSettle();
-    await tester.tap(find.text('Energia').last);
-    await tester.pumpAndSettle();
+    expect(find.text('Mitos enviados (0)'), findsOneWidget);
+    await preencherMito(tester, 'Quem mora perto de usina fica radioativo');
 
     await tester.ensureVisible(find.text('Enviar'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Enviar'));
     await tester.pumpAndSettle();
 
     expect(find.text('Enviado!'), findsOneWidget);
     expect(find.textContaining('Valeu, Joao!'), findsOneWidget);
+    // nao pode prometer resposta por e-mail, isso nao existe
+    expect(find.textContaining('por e-mail'), findsNothing);
 
     await tester.tap(find.text('OK'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Curiosidades'), findsOneWidget);
+    expect(find.text('Enviar um mito'), findsOneWidget);
+    expect(find.text('Mitos enviados (1)'), findsOneWidget);
+    expect(find.text('Quem mora perto de usina fica radioativo'), findsOneWidget);
+    expect(find.text('Energia - Joao Silva'), findsOneWidget);
+
+    final nome = find.widgetWithText(TextFormField, 'Nome');
+    expect(tester.widget<TextFormField>(nome).controller!.text, isEmpty);
+    // a categoria tambem tem que voltar a ficar vazia
+    expect(find.text('Energia'), findsNothing);
+  });
+
+  testWidgets('switch esconde o nome na lista', (WidgetTester tester) async {
+    await abrirLista(tester);
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+
+    await preencherMito(tester, 'Toda radiação faz mal pra saúde');
+    await tester.ensureVisible(find.byType(Switch));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byType(Switch));
+    await tester.pump();
+    await enviarMito(tester);
+
+    expect(find.text('Energia - Anônimo'), findsOneWidget);
+  });
+
+  testWidgets('da pra enviar dois mitos e remover', (WidgetTester tester) async {
+    await abrirLista(tester);
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+
+    await preencherMito(tester, 'Primeiro mito que eu ouvi');
+    await enviarMito(tester);
+    await preencherMito(tester, 'Segundo mito que eu ouvi');
+    await enviarMito(tester);
+    expect(find.text('Mitos enviados (2)'), findsOneWidget);
+
+    await tester.ensureVisible(find.byTooltip('Remover').first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byTooltip('Remover').first);
+    await tester.pump();
+    expect(find.text('Mitos enviados (1)'), findsOneWidget);
+    expect(find.text('Primeiro mito que eu ouvi'), findsOneWidget);
+    expect(find.text('Segundo mito que eu ouvi'), findsNothing);
+  });
+
+  testWidgets('mitos continuam depois de sair da tela', (WidgetTester tester) async {
+    await abrirLista(tester);
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+
+    await preencherMito(tester, 'Um mito qualquer de teste');
+    await enviarMito(tester);
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Enviar mito'));
+    await tester.pumpAndSettle();
+    expect(find.text('Mitos enviados (1)'), findsOneWidget);
+  });
+
+  test('todas as fotos existem e tem credito', () {
+    for (final curiosidade in listaCuriosidades) {
+      expect(File(curiosidade.imagem).existsSync(), isTrue, reason: curiosidade.imagem);
+      expect(curiosidade.creditoFoto, isNotEmpty);
+    }
+    for (final categoria in listaCategorias) {
+      expect(File(categoria.imagem).existsSync(), isTrue, reason: categoria.imagem);
+      expect(categoria.creditoFoto, isNotEmpty);
+    }
+  });
+
+  testWidgets('tela sobre mostra os creditos das fotos', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await tester.tap(find.text('Sobre o app'));
+    await tester.pumpAndSettle();
+
+    await tester.scrollUntilVisible(find.text('Créditos das fotos'), 300);
+    await tester.scrollUntilVisible(
+      find.text('Fukushima (2011): Digital Globe, CC BY-SA 3.0'),
+      300,
+    );
+    expect(find.text('Fukushima (2011): Digital Globe, CC BY-SA 3.0'), findsOneWidget);
   });
 
   testWidgets('telas aguentam fonte grande', (WidgetTester tester) async {
@@ -420,6 +533,34 @@ void main() {
     expect(find.text('$total de $total'), findsOneWidget);
     expect(find.text('Você acertou 100%'), findsOneWidget);
     expect(find.text('Especialista em átomos!'), findsOneWidget);
+    // acertou tudo, nao tem o que revisar
+    expect(find.textContaining('Para revisar'), findsNothing);
+  });
+
+  testWidgets('resultado mostra o que errou', (WidgetTester tester) async {
+    await abrirQuiz(tester);
+
+    final errada = perguntaNaTela();
+    await tester.tap(find.text(respostaErrada(errada)));
+    await tester.pump();
+    await tocarProxima(tester);
+
+    for (var i = 1; i < listaPerguntas.length; i++) {
+      final pergunta = perguntaNaTela();
+      await tester.ensureVisible(find.text(pergunta.resposta));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(pergunta.resposta));
+      await tester.pump();
+      await tocarProxima(tester);
+    }
+
+    await tester.ensureVisible(find.text('Para revisar (1)'));
+    await tester.pumpAndSettle();
+    expect(find.text('Para revisar (1)'), findsOneWidget);
+    expect(find.text(errada.afirmacao), findsOneWidget);
+    expect(find.text('Resposta certa: ${errada.resposta}'), findsOneWidget);
+    expect(find.text(errada.explicacao), findsOneWidget);
+    expect(find.text('Fonte: ${errada.fonte}'), findsOneWidget);
   });
 
   testWidgets('voltar do resultado cai no explorar', (WidgetTester tester) async {
@@ -468,7 +609,9 @@ void main() {
   Future<void> abrirResultado(WidgetTester tester, int acertos) async {
     telaDeCelular(tester);
     await tester.pumpWidget(
-      MaterialApp(home: TelaResultado(acertos: acertos, total: 12)),
+      MaterialApp(
+        home: TelaResultado(acertos: acertos, total: 12, erradas: const []),
+      ),
     );
   }
 

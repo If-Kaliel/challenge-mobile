@@ -5,10 +5,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Chernobyl (1986)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Chernobyl_nuclear_disaster_aftermath_abandoned_town_of_Pripyat_02.jpg/960px-Chernobyl_nuclear_disaster_aftermath_abandoned_town_of_Pripyat_02.jpg',
+    imagem: 'assets/imagens/fotos/chernobyl.jpg',
     legenda:
         'Pripyat abandonada. Lá no fundo, o domo que hoje cobre o reator 4 de Chernobyl.',
+    creditoFoto: 'Hnapel, CC0',
     resumo:
         'O pior acidente nuclear da história aconteceu na Ucrânia, em 26 de abril de 1986, quando o reator 4 explodiu.',
     texto:
@@ -19,10 +19,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Césio-137 em Goiânia (1987)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/02010020_cemetery_Goi%C3%A2nia.jpg/960px-02010020_cemetery_Goi%C3%A2nia.jpg',
+    imagem: 'assets/imagens/fotos/goiania.jpg',
     legenda:
         'Cemitério de Goiânia onde vítimas do césio-137 foram enterradas em caixões de chumbo cobertos de concreto.',
+    creditoFoto: 'IAEA Imagebank, CC BY 2.0',
     resumo:
         'Catadores abriram um aparelho de radioterapia abandonado e o pó brilhante contaminou centenas de pessoas.',
     texto:
@@ -34,10 +34,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Hiroshima e Nagasaki (1945)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/AtomicEffects-Hiroshima.jpg/960px-AtomicEffects-Hiroshima.jpg',
+    imagem: 'assets/imagens/fotos/hiroshima.jpg',
     legenda:
         'Hiroshima destruída, vista do alto do hospital da Cruz Vermelha, em 1945.',
+    creditoFoto: 'governo dos EUA, domínio público',
     resumo:
         'As duas únicas bombas atômicas usadas em guerra foram lançadas sobre o Japão em agosto de 1945.',
     texto:
@@ -47,10 +47,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Fukushima (2011)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/Fukushima_I_by_Digital_Globe.jpg/960px-Fukushima_I_by_Digital_Globe.jpg',
+    imagem: 'assets/imagens/fotos/fukushima.jpg',
     legenda:
         'Foto de satélite da usina de Fukushima Daiichi depois do tsunami, com os prédios dos reatores destruídos.',
+    creditoFoto: 'Digital Globe, CC BY-SA 3.0',
     resumo:
         'Um terremoto seguido de tsunami desligou o resfriamento da usina e três reatores derreteram.',
     texto:
@@ -61,10 +61,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Three Mile Island (1979)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/Three_Mile_Island_%28color%29.jpg/960px-Three_Mile_Island_%28color%29.jpg',
+    imagem: 'assets/imagens/fotos/three_mile_island.jpg',
     legenda:
         'A usina de Three Mile Island, na Pensilvânia (EUA).',
+    creditoFoto: 'Departamento de Energia dos EUA, domínio público',
     resumo:
         'O pior acidente nuclear dos EUA: metade do reator derreteu, mas ninguém morreu.',
     texto:
@@ -75,10 +75,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Castle Bravo (1954)',
     categoria: 'Tragédias',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5d/Castle_Bravo_Blast.jpg/960px-Castle_Bravo_Blast.jpg',
+    imagem: 'assets/imagens/fotos/castle_bravo.jpg',
     legenda:
         'O cogumelo da explosão Castle Bravo, no Atol de Bikini.',
+    creditoFoto: 'Departamento de Energia dos EUA, domínio público',
     resumo:
         'Um teste de bomba saiu 2,5 vezes mais forte que o previsto e a chuva radioativa caiu em cima de pescadores.',
     texto:
@@ -90,10 +90,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'O primeiro raio-X (1895)',
     categoria: 'Medicina',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/First_medical_X-ray_by_Wilhelm_R%C3%B6ntgen_of_his_wife_Anna_Bertha_Ludwig%27s_hand_-_18951222.jpg/960px-First_medical_X-ray_by_Wilhelm_R%C3%B6ntgen_of_his_wife_Anna_Bertha_Ludwig%27s_hand_-_18951222.jpg',
+    imagem: 'assets/imagens/fotos/raio_x.jpg',
     legenda:
         'A primeira radiografia médica: a mão de Anna Bertha, esposa de Röntgen, com o anel.',
+    creditoFoto: 'Wilhelm Röntgen, domínio público',
     resumo:
         'Wilhelm Röntgen fez a primeira radiografia da história: a mão da esposa dele, com anel e tudo.',
     texto:
@@ -104,10 +104,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Exame PET',
     categoria: 'Medicina',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/PET-image.jpg/960px-PET-image.jpg',
+    imagem: 'assets/imagens/fotos/pet.jpg',
     legenda:
         'Exame PET do cérebro. As cores mostram onde a glicose está sendo mais usada.',
+    creditoFoto: 'Jens Maus, domínio público',
     resumo:
         'Uma pequena quantidade de material radioativo ajuda os médicos a encontrar tumores no corpo.',
     texto:
@@ -118,10 +118,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Iodo radioativo na tireoide',
     categoria: 'Medicina',
-    imagem:
-        'https://upload.wikimedia.org/wikipedia/commons/4/4f/Iodine_-_131_Capsule_Facility.jpg',
+    imagem: 'assets/imagens/fotos/iodo.jpg',
     legenda:
         'Laboratório onde são preparadas as cápsulas de iodo-131 usadas no tratamento.',
+    creditoFoto: 'Sudip Bhunia, CC BY-SA 4.0',
     resumo:
         'A tireoide "puxa" o iodo do corpo, então o iodo radioativo vai direto onde precisa tratar.',
     texto:
@@ -132,10 +132,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Radioterapia',
     categoria: 'Medicina',
-    imagem:
-        'https://upload.wikimedia.org/wikipedia/commons/3/30/Radium_radiotherapy_machine_1951.jpg',
+    imagem: 'assets/imagens/fotos/radioterapia.jpg',
     legenda:
         'Ilustração de revista mostrando uma das primeiras máquinas de radioterapia, de 1951.',
+    creditoFoto: 'autor desconhecido, domínio público',
     resumo:
         'Cerca de metade das pessoas com câncer precisa de radioterapia em algum momento do tratamento.',
     texto:
@@ -147,10 +147,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Angra 1 e Angra 2',
     categoria: 'Energia',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Angra_dos_Reis_-_usinas_nucleares.jpg/960px-Angra_dos_Reis_-_usinas_nucleares.jpg',
+    imagem: 'assets/imagens/fotos/angra.jpg',
     legenda:
         'As usinas nucleares de Angra dos Reis, no Rio de Janeiro.',
+    creditoFoto: 'Sturm, CC BY 3.0',
     resumo:
         'O Brasil tem duas usinas nucleares funcionando em Angra dos Reis, no Rio de Janeiro.',
     texto:
@@ -161,10 +161,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Pastilha de urânio',
     categoria: 'Energia',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Nuclear_Fuel_Pellets_%2814492225000%29.jpg/960px-Nuclear_Fuel_Pellets_%2814492225000%29.jpg',
+    imagem: 'assets/imagens/fotos/pastilha.jpg',
     legenda:
         'Pastilhas de combustível nuclear, do tamanho da ponta de um dedo.',
+    creditoFoto: 'NRC (EUA), domínio público',
     resumo:
         'Uma pastilha de urânio de 6 gramas tem tanta energia quanto cerca de 1 tonelada de carvão.',
     texto:
@@ -175,10 +175,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Energia que quase não solta CO2',
     categoria: 'Energia',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Doel_nuclear_power_plant.JPG/960px-Doel_nuclear_power_plant.JPG',
+    imagem: 'assets/imagens/fotos/torres.jpg',
     legenda:
         'Torres de resfriamento da usina de Doel, na Bélgica. O que sai delas é vapor de água.',
+    creditoFoto: 'Ad Meskens, CC BY-SA 3.0',
     resumo:
         'Usina nuclear não queima nada, então quase não solta gás carbônico enquanto gera energia.',
     texto:
@@ -189,10 +189,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'As primeiras lâmpadas nucleares (1951)',
     categoria: 'Energia',
-    imagem:
-        'https://upload.wikimedia.org/wikipedia/commons/a/ac/First_four_nuclear_lit_bulbs.jpeg',
+    imagem: 'assets/imagens/fotos/lampadas.jpg',
     legenda:
         'As quatro lâmpadas acesas pelo reator EBR-I em 1951.',
+    creditoFoto: 'autor desconhecido, domínio público',
     resumo:
         'Quatro lâmpadas foram as primeiras coisas acesas com eletricidade nuclear.',
     texto:
@@ -203,10 +203,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Banana radioativa?',
     categoria: 'Ciência',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Banana_isolated_on_white.jpg/960px-Banana_isolated_on_white.jpg',
+    imagem: 'assets/imagens/fotos/banana.jpg',
     legenda:
         'Uma banana comum. Sim, ela é um pouquinho radioativa.',
+    creditoFoto: 'robin_24, CC BY 2.0',
     resumo:
         'A banana tem potássio-40, que é levemente radioativo. Mas teria que comer milhões de uma vez pra fazer mal.',
     texto:
@@ -217,10 +217,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'Marie Curie',
     categoria: 'Ciência',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Marie_Curie_in_her_Paris_Laboratory%2C_1912.jpg/960px-Marie_Curie_in_her_Paris_Laboratory%2C_1912.jpg',
+    imagem: 'assets/imagens/fotos/marie_curie.jpg',
     legenda:
         'Marie Curie no laboratório dela em Paris, em 1912.',
+    creditoFoto: 'autor desconhecido, domínio público',
     resumo:
         'Ganhou dois prêmios Nobel, um de Física e outro de Química, estudando a radioatividade.',
     texto:
@@ -231,10 +231,10 @@ const List<Curiosidade> listaCuriosidades = [
   Curiosidade(
     titulo: 'O primeiro reator (1942)',
     categoria: 'Ciência',
-    imagem:
-        'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Stagg_Field_reactor.jpg/960px-Stagg_Field_reactor.jpg',
+    imagem: 'assets/imagens/fotos/primeiro_reator.jpg',
     legenda:
         'Ilustração do Chicago Pile-1, o primeiro reator nuclear do mundo.',
+    creditoFoto: 'Melvin A. Miller (Argonne), domínio público',
     resumo:
         'O primeiro reator nuclear do mundo foi montado embaixo da arquibancada de um estádio.',
     texto:

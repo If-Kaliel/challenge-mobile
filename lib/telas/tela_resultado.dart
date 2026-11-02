@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 
+import '../models/pergunta.dart';
 import '../tema.dart';
 import 'tela_quiz.dart';
 
 class TelaResultado extends StatelessWidget {
   final int acertos;
   final int total;
+  final List<Pergunta> erradas;
 
-  const TelaResultado({super.key, required this.acertos, required this.total});
+  const TelaResultado({
+    super.key,
+    required this.acertos,
+    required this.total,
+    required this.erradas,
+  });
 
   int get _porcentagem => (acertos / total * 100).round();
 
@@ -49,6 +56,42 @@ class TelaResultado extends StatelessWidget {
       return Icons.thumb_up;
     }
     return Icons.warning_amber;
+  }
+
+  Widget _cardRevisao(Pergunta pergunta) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              pergunta.afirmacao,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'Resposta certa: ${pergunta.resposta}',
+              style: const TextStyle(
+                color: Cores.verde,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(pergunta.explicacao, style: const TextStyle(height: 1.5)),
+            const SizedBox(height: 8),
+            Text(
+              'Fonte: ${pergunta.fonte}',
+              style: const TextStyle(
+                fontSize: 12,
+                color: Cores.textoSuave,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -121,6 +164,18 @@ class TelaResultado extends StatelessWidget {
                 icon: const Icon(Icons.explore),
                 label: const Text('Voltar para Explorar'),
               ),
+              if (erradas.isNotEmpty) ...[
+                const SizedBox(height: 32),
+                Text(
+                  'Para revisar (${erradas.length})',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                for (final pergunta in erradas) _cardRevisao(pergunta),
+              ],
             ],
           ),
         ),

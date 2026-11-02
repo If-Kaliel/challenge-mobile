@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import '../dados/categorias.dart';
 import '../models/categoria.dart';
 import '../models/curiosidade.dart';
+import '../models/mito_enviado.dart';
 import '../tema.dart';
-import '../widgets/imagem_rede.dart';
+import '../widgets/imagem_local.dart';
 import 'tela_curiosidades.dart';
 import 'tela_favoritos.dart';
 import 'tela_quiz.dart';
@@ -19,6 +20,7 @@ class TelaCategorias extends StatefulWidget {
 class _TelaCategoriasState extends State<TelaCategorias> {
   // os favoritos ficam aqui pra nao sumirem quando troca de categoria
   final List<Curiosidade> favoritos = [];
+  final List<MitoEnviado> mitosEnviados = [];
 
   // categoria null = mostra todas
   Future<void> _abrirCuriosidades(String? categoria) async {
@@ -28,6 +30,7 @@ class _TelaCategoriasState extends State<TelaCategorias> {
         builder: (context) => TelaCuriosidades(
           categoria: categoria,
           favoritos: favoritos,
+          mitosEnviados: mitosEnviados,
         ),
       ),
     );
@@ -116,7 +119,10 @@ class _TelaCategoriasState extends State<TelaCategorias> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: ImagemRede(url: categoria.imagem, iconeErro: categoria.icone),
+              child: ImagemLocal(
+                caminho: categoria.imagem,
+                iconeErro: categoria.icone,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(12),
@@ -127,7 +133,10 @@ class _TelaCategoriasState extends State<TelaCategorias> {
                   Expanded(
                     child: Text(
                       categoria.nome,
-                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],

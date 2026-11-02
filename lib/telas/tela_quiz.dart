@@ -17,6 +17,8 @@ class _TelaQuizState extends State<TelaQuiz> {
   final List<Pergunta> _perguntas = List.of(listaPerguntas)..shuffle();
   int _perguntaAtual = 0;
   int _acertos = 0;
+  // vai pro resultado pra pessoa revisar
+  final List<Pergunta> _erradas = [];
   // null = ainda nao respondeu essa pergunta
   String? _respostaEscolhida;
 
@@ -40,6 +42,8 @@ class _TelaQuizState extends State<TelaQuiz> {
       _respostaEscolhida = resposta;
       if (resposta == _pergunta.resposta) {
         _acertos++;
+      } else {
+        _erradas.add(_pergunta);
       }
     });
   }
@@ -61,8 +65,11 @@ class _TelaQuizState extends State<TelaQuiz> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            TelaResultado(acertos: _acertos, total: _perguntas.length),
+        builder: (context) => TelaResultado(
+          acertos: _acertos,
+          total: _perguntas.length,
+          erradas: _erradas,
+        ),
       ),
     );
   }

@@ -32,9 +32,7 @@ class _TelaFavoritosState extends State<TelaFavoritos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Meus favoritos'),
-      ),
+      appBar: AppBar(title: const Text('Meus favoritos')),
       body: widget.favoritos.isEmpty ? _listaVazia() : _lista(),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../dados/categorias.dart';
+import '../dados/curiosidades.dart';
 import '../tema.dart';
 
 class TelaSobre extends StatelessWidget {
@@ -97,6 +99,8 @@ class TelaSobre extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 12),
+          const _CardCreditos(),
           const SizedBox(height: 24),
           const Text(
             'Feito por alunos da FIAP para o Challenge 2026',
@@ -105,6 +109,49 @@ class TelaSobre extends StatelessWidget {
           ),
           const SizedBox(height: 16),
         ],
+      ),
+    );
+  }
+}
+
+class _CardCreditos extends StatelessWidget {
+  const _CardCreditos();
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Row(
+              children: [
+                Icon(Icons.photo_library, color: Cores.amarelo),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    'Créditos das fotos',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Fotos do Wikimedia Commons, reduzidas pra caber no app.',
+              style: TextStyle(color: Cores.textoSuave),
+            ),
+            const SizedBox(height: 8),
+            for (final categoria in listaCategorias)
+              _Fonte(texto: 'Tema ${categoria.nome}: ${categoria.creditoFoto}'),
+            for (final curiosidade in listaCuriosidades)
+              _Fonte(
+                texto: '${curiosidade.titulo}: ${curiosidade.creditoFoto}',
+              ),
+          ],
+        ),
       ),
     );
   }

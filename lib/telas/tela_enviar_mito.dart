@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../models/mito_enviado.dart';
+import '../tema.dart';
+
 class TelaEnviarMito extends StatefulWidget {
-  const TelaEnviarMito({super.key});
+  // a lista vem de fora pra nao sumir quando sai dessa tela
+  final List<MitoEnviado> mitosEnviados;
+
+  const TelaEnviarMito({super.key, required this.mitosEnviados});
 
   @override
   State<TelaEnviarMito> createState() => _TelaEnviarMitoState();
@@ -14,7 +20,7 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
   final _afirmacaoController = TextEditingController();
 
   String? _categoria;
-  bool _receberResposta = true;
+  bool _mostrarNome = true;
   // depois da primeira tentativa os erros vao sumindo enquanto digita
   bool _jaTentouEnviar = false;
 
@@ -78,21 +84,30 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
 
     final nome = _nomeController.text.trim().split(' ').first;
 
+    final mito = MitoEnviado(
+      autor: _mostrarNome ? _nomeController.text.trim() : 'Anônimo',
+      categoria: _categoria!,
+      afirmacao: _afirmacaoController.text.trim(),
+    );
+
+    // o reset chama o onChanged do dropdown com o valor antigo,
+    // por isso limpa a categoria so depois dele
+    _formKey.currentState!.reset();
+    setState(() {
+      widget.mitosEnviados.insert(0, mito);
+      _categoria = null;
+      _jaTentouEnviar = false;
+    });
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
           title: const Text('Enviado!'),
-          content: Text(
-            'Valeu, $nome! A gente vai pesquisar se isso é mito ou verdade'
-            '${_receberResposta ? ' e te manda a resposta por e-mail.' : '.'}',
-          ),
+          content: Text('Valeu, $nome! Seu mito entrou na lista de enviados.'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(context); // fecha o dialog
-                Navigator.pop(this.context); // volta pra lista
-              },
+              onPressed: () => Navigator.pop(context),
               child: const Text('OK'),
             ),
           ],
@@ -101,12 +116,31 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
     );
   }
 
+  void _remover(MitoEnviado mito) {
+    setState(() {
+      widget.mitosEnviados.remove(mito);
+    });
+  }
+
+  Widget _cardMito(MitoEnviado mito) {
+    return Card(
+      child: ListTile(
+        leading: const Icon(Icons.chat_bubble_outline, color: Cores.amarelo),
+        title: Text(mito.afirmacao),
+        subtitle: Text('${mito.categoria} - ${mito.autor}'),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete_outline),
+          tooltip: 'Remover',
+          onPressed: () => _remover(mito),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Enviar um mito'),
-      ),
+      appBar: AppBar(title: const Text('Enviar um mito')),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -118,7 +152,7 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
-                'Ouviu alguma coisa sobre energia nuclear e não sabe se é verdade? Manda pra gente!',
+                'Ouviu alguma coisa sobre energia nuclear e não sabe se é verdade? Anota aqui pra não esquecer!',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 16),
@@ -178,11 +212,11 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
               ),
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Quero receber a resposta por e-mail'),
-                value: _receberResposta,
+                title: const Text('Mostrar meu nome na lista'),
+                value: _mostrarNome,
                 onChanged: (valor) {
                   setState(() {
-                    _receberResposta = valor;
+                    _mostrarNome = valor;
                   });
                 },
               ),
@@ -192,6 +226,21 @@ class _TelaEnviarMitoState extends State<TelaEnviarMito> {
                 icon: const Icon(Icons.send),
                 label: const Text('Enviar'),
               ),
+              const SizedBox(height: 24),
+              Text(
+                'Mitos enviados (${widget.mitosEnviados.length})',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              if (widget.mitosEnviados.isEmpty)
+                const Text(
+                  'Nenhum mito enviado ainda.',
+                  style: TextStyle(color: Cores.textoSuave),
+                ),
+              for (final mito in widget.mitosEnviados) _cardMito(mito),
             ],
           ),
         ),
