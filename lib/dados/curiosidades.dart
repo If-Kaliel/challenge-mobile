@@ -95,6 +95,7 @@ const List<Curiosidade> listaCuriosidades = [
   ),
   Curiosidade(
     titulo: 'O primeiro raio-X (1895)',
+    fotoInteira: true,
     ano: 1895,
     categoria: 'Medicina',
     imagem: 'assets/imagens/fotos/raio_x.jpg',

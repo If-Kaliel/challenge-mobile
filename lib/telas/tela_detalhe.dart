@@ -29,6 +29,7 @@ class TelaDetalhe extends StatelessWidget {
               altura: 260,
               iconeErro: iconeDaCategoria(curiosidade.categoria),
               sombria: tragedia,
+              fit: curiosidade.fotoInteira ? BoxFit.contain : BoxFit.cover,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 6, 16, 0),

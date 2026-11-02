@@ -844,4 +844,24 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('raio-x aparece inteiro nos detalhes', (WidgetTester tester) async {
+    await abrirLista(tester);
+
+    // ele fica la embaixo na lista
+    await tester.scrollUntilVisible(find.text('O primeiro raio-X (1895)'), 300);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('O primeiro raio-X (1895)'));
+    await tester.pumpAndSettle();
+    expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.contain);
+
+    // as outras continuam preenchendo o espaco
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Chernobyl (1986)'), -300);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Chernobyl (1986)'));
+    await tester.pumpAndSettle();
+    expect(tester.widget<Image>(find.byType(Image)).fit, BoxFit.cover);
+  });
 }

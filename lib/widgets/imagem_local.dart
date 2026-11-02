@@ -10,6 +10,7 @@ class ImagemLocal extends StatelessWidget {
   final IconData iconeErro;
   // deixa a foto vermelha, usado nas tragedias
   final bool sombria;
+  final BoxFit fit;
 
   const ImagemLocal({
     super.key,
@@ -17,6 +18,7 @@ class ImagemLocal extends StatelessWidget {
     this.altura,
     this.iconeErro = Icons.image_not_supported,
     this.sombria = false,
+    this.fit = BoxFit.cover,
   });
 
   @override
@@ -25,7 +27,7 @@ class ImagemLocal extends StatelessWidget {
       caminho,
       height: altura,
       width: double.infinity,
-      fit: BoxFit.cover,
+      fit: fit,
       color: sombria ? Cores.filtroTragedia : null,
       colorBlendMode: sombria ? BlendMode.color : null,
       errorBuilder: (context, erro, stackTrace) {

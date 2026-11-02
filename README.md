@@ -1,7 +1,5 @@
 # Efeito Fallout ☢️
 
-> Nome provisório
-
 Aplicativo mobile de curiosidades sobre energia nuclear, feito em **Flutter** para o **Challenge FIAP 2026** em parceria com a **AMAZUL**.
 
 ## Integrantes
@@ -25,15 +23,15 @@ Empresa pública ligada ao Ministério da Defesa por meio da Marinha do Brasil, 
 
 ## Descrição da solução
 
-A energia nuclear costuma ser lembrada só pelos acidentes, e muita informação errada circula sobre ela. O **Efeito Fallout** junta os dois lados em um só lugar:
+A energia nuclear costuma ser lembrada só pelos acidentes, e muita informação errada circula sobre ela. O **Efeito Fallout** junta os dois lados em um só lugar e ajuda a separar o que é mito do que é verdade:
 
-- as **tragédias** que marcaram a história (Chernobyl, Césio-137 em Goiânia, Hiroshima e Nagasaki, Fukushima);
-- os **avanços** na medicina (raio-X, exame PET) e na geração de energia (Angra, pastilha de urânio, baixa emissão de CO2);
-- **curiosidades** de ciência (Marie Curie, a "banana radioativa").
+- **Mito ou verdade?:** quiz com 12 afirmações sobre tecnologia nuclear. A pessoa responde Mito, Verdade ou Depende e, depois de cada resposta, vê uma explicação curta e a fonte. No final aparecem a nota e a revisão do que errou.
+- **Curiosidades por tema:** 20 curiosidades em 4 categorias, cada uma com foto real. As **tragédias** (Chernobyl, Césio-137 em Goiânia, Hiroshima e Nagasaki, Fukushima...) têm um clima vermelho e escuro, e a **medicina** nuclear (raio-X, PET, iodo-131, radioterapia) tem um clima verde-água, de esperança.
+- **Linha do tempo:** 17 eventos de 1895 a 2026, com filtro de avanços e tragédias.
+- **Favoritos** e **Enviar um mito:** dá pra salvar curiosidades e anotar mitos que você ouviu por aí.
+- **Letras maiores:** chave de acessibilidade que aumenta o texto do app inteiro.
 
-O usuário navega por categorias, lê os detalhes de cada curiosidade, salva as favoritas e pode **enviar um mito** que ouviu para ser verificado.
-
-Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), sem banco de dados.
+Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), sem banco de dados. Por isso os favoritos, os mitos enviados e as letras maiores voltam ao normal quando o app é fechado.
 
 ## Telas
 
@@ -141,12 +139,22 @@ Link do vídeo no YouTube: *em breve*
 > - [ ] o fluxo de navegação, indo e voltando entre as telas
 > - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
 > - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)
-> - [ ] subir no YouTube como **não listado** e colocar o link aqui em cima
+> - [ ] subir no YouTube como **não listado**, colocar o link aqui em cima e apagar este recado
 
 ## Fontes
 
-- AIEA - Agência Internacional de Energia Atômica
-- CNEN - Comissão Nacional de Energia Nuclear
 - AMAZUL - apresentação de kick-off do Challenge FIAP (13/10/2026)
-- IPCC - emissões de CO2 por fonte de energia
+- AIEA - Agência Internacional de Energia Atômica, incluindo o relatório "The Radiological Accident in Goiânia" (1988)
+- AECL - "A Reactor Cannot Explode Like a Nuclear Bomb"
+- CNEN - Comissão Nacional de Energia Nuclear
+- Constituição Federal de 1988, art. 21, XXIII, a
+- EPA (agência ambiental dos EUA) - irradiação de alimentos
+- Governo da Finlândia - licença do depósito Onkalo (out/2026)
+- Health Canada - irradiação de alimentos
+- Health Physics Society - irradiação de alimentos e exames com radiação
+- IPCC - AR5, Grupo de Trabalho III, Anexo III (2014), emissões de CO2 por fonte de energia
+- OncoLink (Penn Medicine) - radioatividade depois de exames de medicina nuclear
+- Our World in Data - "What are the safest and cleanest sources of energy?"
+- UNSCEAR - Relatório de 2008, radiação natural
+- Utah Office of Energy Development - equivalência da pastilha de urânio (2026)
 - Fotos: Wikimedia Commons (autor e licença de cada uma estão na tela Sobre o app)
