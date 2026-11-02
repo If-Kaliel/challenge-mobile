@@ -5,7 +5,15 @@ import 'tela_categorias.dart';
 import 'tela_sobre.dart';
 
 class TelaInicial extends StatelessWidget {
-  const TelaInicial({super.key});
+  // o estado fica no main pra valer em todas as telas
+  final bool letrasMaiores;
+  final ValueChanged<bool> aoMudarLetras;
+
+  const TelaInicial({
+    super.key,
+    required this.letrasMaiores,
+    required this.aoMudarLetras,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +78,19 @@ class TelaInicial extends StatelessWidget {
                     );
                   },
                   child: const Text('Começar'),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  child: SwitchListTile(
+                    secondary: const Icon(Icons.text_increase),
+                    title: const Text('Letras maiores'),
+                    subtitle: const Text(
+                      'Aumenta o texto de todas as telas',
+                      style: TextStyle(color: Cores.textoSuave),
+                    ),
+                    value: letrasMaiores,
+                    onChanged: aoMudarLetras,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 TextButton(

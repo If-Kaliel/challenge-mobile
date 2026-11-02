@@ -39,7 +39,7 @@ Nesta Sprint 1 os dados são **mockados** (ficam em listas dentro do código), s
 
 | Tela | O que tem |
 |---|---|
-| Inicial | Abertura do app, botão Começar e link para Sobre |
+| Inicial | Abertura do app, botão Começar, chave Letras maiores e link para Sobre |
 | Explorar | `GridView` com as 4 categorias (Tragédias, Medicina, Energia, Ciência) com imagens |
 | Curiosidades | Lista filtrada pela categoria, botão de favoritar e contador de favoritos |
 | Detalhes | Texto completo da curiosidade (recebe a curiosidade por parâmetro) |
@@ -66,7 +66,7 @@ Inicial ──> Explorar ──> Curiosidades ──> Detalhes
 
 - **Navegação:** 10 telas ligadas com `Navigator.push` / `Navigator.pop`, com passagem de parâmetros (categoria, curiosidade, lista de favoritos e acertos do quiz).
 - **Protótipo visual:** `Scaffold`, `AppBar`, `Column`, `Row`, `Container`, `Padding`, `SizedBox`, `Card`, `Image`, `Icon`, `ListView` e `GridView`, com tema próprio (escuro, amarelo e preto) em todas as telas.
-- **Gerenciamento de estado:** `StatefulWidget` + `setState()` para favoritar/desfavoritar, com o contador "Favoritos: N" atualizando na hora.
+- **Gerenciamento de estado:** `StatefulWidget` + `setState()` para favoritar/desfavoritar, com o contador "Favoritos: N" atualizando na hora. A chave "Letras maiores" da tela inicial também usa `setState` e aumenta o texto de todas as telas (acessibilidade).
 - **Formulário:** `Form` + `GlobalKey<FormState>` + `TextFormField`, `DropdownButtonFormField` e `Switch`, com validação dos campos, `SnackBar` quando tem erro e `AlertDialog` quando envia.
 
 ## Como executar

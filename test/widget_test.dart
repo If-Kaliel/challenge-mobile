@@ -119,6 +119,19 @@ Future<void> abrirLinhaDoTempo(WidgetTester tester) async {
   await tester.pumpAndSettle();
 }
 
+// liga a chave da tela inicial
+Future<void> ligarLetrasMaiores(WidgetTester tester) async {
+  await tester.ensureVisible(find.text('Letras maiores'));
+  await tester.pumpAndSettle();
+  await tester.tap(find.text('Letras maiores'));
+  await tester.pumpAndSettle();
+}
+
+// quanto o texto esta sendo aumentado na tela atual
+double escalaDoTexto(WidgetTester tester, Finder texto) {
+  return MediaQuery.textScalerOf(tester.element(texto)).scale(10) / 10;
+}
+
 void main() {
   testWidgets('mostra a tela inicial', (WidgetTester tester) async {
     await tester.pumpWidget(const EfeitoFalloutApp());
@@ -750,6 +763,85 @@ void main() {
     await tester.tap(find.text('Linha do tempo'));
     await tester.pumpAndSettle();
 
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('letras maiores aumenta o texto', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+
+    expect(escalaDoTexto(tester, find.text('EFEITO FALLOUT')), 1);
+
+    await ligarLetrasMaiores(tester);
+    expect(escalaDoTexto(tester, find.text('EFEITO FALLOUT')), closeTo(1.3, 0.01));
+    final chave = tester.widget<SwitchListTile>(find.byType(SwitchListTile));
+    expect(chave.value, isTrue);
+
+    // desliga e volta ao normal
+    await tester.tap(find.text('Letras maiores'));
+    await tester.pumpAndSettle();
+    expect(escalaDoTexto(tester, find.text('EFEITO FALLOUT')), 1);
+  });
+
+  testWidgets('letras maiores vale nas outras telas', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await ligarLetrasMaiores(tester);
+
+    await tester.ensureVisible(find.text('Começar'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Começar'));
+    await tester.pumpAndSettle();
+
+    expect(escalaDoTexto(tester, find.text('Escolha um tema')), closeTo(1.3, 0.01));
+  });
+
+  testWidgets('letras maiores nao diminui a fonte do celular', (WidgetTester tester) async {
+    tester.platformDispatcher.textScaleFactorTestValue = 2;
+    addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
+
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await ligarLetrasMaiores(tester);
+
+    expect(escalaDoTexto(tester, find.text('EFEITO FALLOUT')), 2);
+  });
+
+  testWidgets('letras maiores nao estoura nenhuma tela', (WidgetTester tester) async {
+    telaDeCelular(tester);
+    await tester.pumpWidget(const EfeitoFalloutApp());
+    await ligarLetrasMaiores(tester);
+
+    Future<void> abrir(String texto) async {
+      await tester.ensureVisible(find.text(texto));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(texto));
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull, reason: texto);
+    }
+
+    Future<void> voltar() async {
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+    }
+
+    await abrir('Sobre o app');
+    await voltar();
+    await abrir('Começar');
+    await abrir('Tragédias');
+    await abrir('Chernobyl (1986)');
+    await voltar();
+    await abrir('Enviar mito');
+    await voltar();
+    await abrir('ver');
+    await voltar();
+    await voltar();
+    await abrir('Linha do tempo');
+    await voltar();
+    await abrir('Mito ou verdade? Faça o quiz');
+    await abrir(perguntaNaTela().resposta);
+    await tester.ensureVisible(find.text('Próxima'));
+    await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
 }
