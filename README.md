@@ -129,17 +129,9 @@ lib/
 
 ## Vídeo
 
-Link do vídeo no YouTube: *em breve*
+Link do vídeo no YouTube: (https://youtu.be/43udACvy4II)
 
-> 📌 **Recado pro Kaliel:** gravar o vídeo rodando no **emulador Android** (Android Studio). Vídeo só no navegador não vale nota!
->
-> Checklist do que tem que aparecer (máximo **5 minutos**, com narração):
-> - [ ] o app rodando no emulador Android
-> - [ ] todas as telas: Inicial, Explorar, Curiosidades, Detalhes, Enviar um mito, Meus favoritos, Mito ou verdade, Resultado, Linha do tempo e Sobre o app
-> - [ ] o fluxo de navegação, indo e voltando entre as telas
-> - [ ] o formulário funcionando: primeiro enviar vazio pra mostrar a validação, depois preencher certo e mostrar o dialog
-> - [ ] favoritar e desfavoritar mostrando o contador "Favoritos: N" mudando (gerenciamento de estado com `setState`)
-> - [ ] subir no YouTube como **não listado**, colocar o link aqui em cima e apagar este recado
+> 📌 **Recado pro Kaliel:** gravar o vídeo rodando no emulador. (Feito!).
 
 ## Fontes
 
